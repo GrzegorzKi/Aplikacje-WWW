@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 
-namespace SchoolRegister.BLL.DataModels
+namespace SchoolRegister.Model.DataModels
 {
   public class Role : IdentityRole<int>
   {
@@ -12,7 +12,7 @@ namespace SchoolRegister.BLL.DataModels
     {
     }
 
-    public Role(String name, RoleValue roleValue) : base(name)
+    public Role(string name, RoleValue roleValue) : base(name)
     {
 
     }

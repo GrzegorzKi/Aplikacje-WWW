@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System;
 
-namespace SchoolRegister.BLL.DataModels
+namespace SchoolRegister.Model.DataModels
 {
   public class Student : User
   {
