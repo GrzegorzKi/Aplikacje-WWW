@@ -30,6 +30,12 @@ namespace SchoolRegister.DAL.EF
         .HasValue<Student>((int)RoleValue.Student)
         .HasValue<Parent>((int)RoleValue.Parent)
         .HasValue<Teacher>((int)RoleValue.Teacher);
+
+      modelBuilder.Entity<Grade>()
+        .HasKey(g => new {g.DateOfIssue, g.SubjectId, g.StudentId});
+
+      modelBuilder.Entity<SubjectGroup>()
+        .HasKey(sg => new {sg.GroupId, sg.SubjectId});
     }
   }
 }
