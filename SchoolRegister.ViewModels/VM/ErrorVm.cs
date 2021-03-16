@@ -2,7 +2,7 @@ using System;
 
 namespace SchoolRegister.ViewModels.VM
 {
-    public class ErrorViewModel
+    public class ErrorVm
     {
         public string RequestId { get; set; }
 

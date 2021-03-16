@@ -7,8 +7,13 @@ namespace SchoolRegister.DAL.EF
   public class ApplicationDbContext : IdentityDbContext<User, Role, int>
   {
     // Table properties e.g
-    // public virtual DbSet<Entity> TableName { get; set; }
+    public virtual DbSet<Group> Groups { get; set; }
     public virtual DbSet<Grade> Grades { get; set; }
+    public virtual DbSet<Parent> Parents { get; set; }
+    public virtual DbSet<Student> Students { get; set; }
+    public virtual DbSet<Subject> Subjects { get; set; }
+    public virtual DbSet<Teacher> Teachers { get; set; }
+
     // more properties need to added...
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
     : base(options)
