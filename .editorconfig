@@ -1,0 +1,19 @@
+
+[*]
+
+# Microsoft .NET properties
+csharp_indent_braces = false
+csharp_new_line_before_else = false
+csharp_new_line_before_open_brace = accessors,anonymous_methods,anonymous_types,control_blocks,events,indexers,lambdas,object_collection_array_initalizers,properties
+
+# ReSharper properties
+resharper_csharp_empty_block_style = together_same_line
+resharper_csharp_indent_size = 2
+resharper_csharp_other_braces = end_of_line
+resharper_place_accessorholder_attribute_on_same_line = false
+resharper_remove_blank_lines_near_braces_in_code = false
+
+[*.cs]
+indent_style = space
+indent_size = 2
+tab_width = 4
