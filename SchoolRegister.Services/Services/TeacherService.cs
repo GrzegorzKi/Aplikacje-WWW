@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net.Mail;
+using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
@@ -11,8 +15,15 @@ using SchoolRegister.ViewModels.VM;
 
 namespace SchoolRegister.Services.Services {
   public class TeacherService : BaseService, ITeacherService {
-    public TeacherService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger)
-      : base(dbContext, mapper, logger) { }
+    private UserManager<User> UserManager { get; }
+
+    private SmtpClient SmtpClient { get; }
+
+    public TeacherService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger, UserManager<User> userManager, SmtpClient smtpClient)
+      : base(dbContext, mapper, logger) {
+      UserManager = userManager;
+      SmtpClient = smtpClient;
+    }
 
     public TeacherVm AddOrUpdateTeacher(AddOrUpdateTeacherVm addOrUpdateTeacherVm) {
       try {
@@ -55,6 +66,36 @@ namespace SchoolRegister.Services.Services {
         if (filterExpression != null) teacherEntities = teacherEntities.Where(filterExpression);
 
         return Mapper.Map<IEnumerable<TeacherVm>>(teacherEntities);
+      }
+      catch (Exception ex) {
+        Logger.LogError(ex, ex.Message);
+        throw;
+      }
+    }
+
+    public async Task<EmailVm> SendEmailToParent(CreateEmailVm createEmailVm) {
+      try {
+        if (createEmailVm == null) {
+          throw new ArgumentNullException(nameof(createEmailVm), "View model parameter is null");
+        }
+
+        var teacherTask = DbContext.Users.OfType<Teacher>().FirstAsync(t => t.Id == createEmailVm.SenderId);
+        var parentTask = DbContext.Users.OfType<Parent>().FirstAsync(p => p.Id == createEmailVm.RecipientId);
+
+        var teacher = teacherTask.Result;
+        var parent = parentTask.Result;
+
+        if (!await UserManager.IsInRoleAsync(teacher, "Teacher")) {
+          throw new InvalidOperationException("SenderId must correspond to user with \"Teacher\" role");
+        }
+        if (!await UserManager.IsInRoleAsync(parent, "Parent")) {
+          throw new InvalidOperationException("RecipientId must correspond to user with \"Parent\" role");
+        }
+
+        var mailMessage = new MailMessage(teacher.Email, parent.Email, createEmailVm.Subject, createEmailVm.Body);
+        await SmtpClient.SendMailAsync(mailMessage);
+
+        return Mapper.Map<EmailVm>(createEmailVm);
       }
       catch (Exception ex) {
         Logger.LogError(ex, ex.Message);
