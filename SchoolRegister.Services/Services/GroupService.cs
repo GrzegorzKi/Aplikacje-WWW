@@ -17,8 +17,9 @@ namespace SchoolRegister.Services.Services {
 
     public GroupVm AddOrUpdateGroup(AddOrUpdateGroupVm addOrUpdateGroupVm) {
       try {
-        if (addOrUpdateGroupVm == null)
+        if (addOrUpdateGroupVm == null) {
           throw new ArgumentNullException(nameof(addOrUpdateGroupVm), "View model parameter is null");
+        }
 
         var groupEntity = Mapper.Map<Group>(addOrUpdateGroupVm);
         if (!addOrUpdateGroupVm.Id.HasValue || addOrUpdateGroupVm.Id == 0)
@@ -38,10 +39,11 @@ namespace SchoolRegister.Services.Services {
 
     public GroupVm DeleteGroup(DeleteGroupVm deleteGroupVm) {
       try {
-        if (deleteGroupVm == null)
+        if (deleteGroupVm == null) {
           throw new ArgumentNullException(nameof(deleteGroupVm), "View model parameter is null");
+        }
 
-        var groupEntity = DbContext.Groups.First(g => g.Id == deleteGroupVm.Id);
+        var groupEntity = Mapper.Map<Group>(deleteGroupVm);
 
         DbContext.Groups.Remove(groupEntity);
         DbContext.SaveChanges();
