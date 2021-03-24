@@ -95,7 +95,11 @@ namespace SchoolRegister.Services.Services {
         var mailMessage = new MailMessage(teacher.Email, parent.Email, createEmailVm.Subject, createEmailVm.Body);
         await SmtpClient.SendMailAsync(mailMessage);
 
-        return Mapper.Map<EmailVm>(createEmailVm);
+        var emailVm = Mapper.Map<EmailVm>(createEmailVm);
+        emailVm = Mapper.Map(teacher, emailVm);
+        emailVm = Mapper.Map(parent, emailVm);
+
+        return emailVm;
       }
       catch (Exception ex) {
         Logger.LogError(ex, ex.Message);

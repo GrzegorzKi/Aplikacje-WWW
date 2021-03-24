@@ -14,7 +14,7 @@ namespace SchoolRegister.Model.DataModels {
     public virtual IList<Grade> Grades { get; set; }
     public IDictionary<string, List<GradeScale>> GradesPerSubject { get; }
     public IDictionary<string, double> AverageGradePerSubject { get; }
-    public virtual Parent Parent { get; set; }
     public virtual Group Group { get; set; }
+    public virtual Parent Parent { get; set; }
   }
 }

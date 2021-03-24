@@ -14,6 +14,6 @@ namespace SchoolRegister.ViewModels.VM {
 
     public GroupVm Group { get; set; }
 
-    public Parent Parent { get; set; }
+    public ParentVm Parent { get; set; }
   }
 }
