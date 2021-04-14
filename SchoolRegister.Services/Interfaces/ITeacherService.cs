@@ -10,6 +10,5 @@ namespace SchoolRegister.Services.Interfaces {
     TeacherVm AddOrUpdateTeacher(AddOrUpdateTeacherVm addOrUpdateTeacherVm);
     TeacherVm GetTeacher(Expression<Func<Teacher, bool>> filterExpression);
     IEnumerable<TeacherVm> GetTeachers(Expression<Func<Teacher, bool>> filterExpression = null);
-    Task<EmailVm> SendEmailToParent(CreateEmailVm createEmailVm);
   }
 }
