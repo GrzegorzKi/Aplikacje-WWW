@@ -21,7 +21,10 @@ namespace SchoolRegister.Tests.UnitTests {
         GradeValue = GradeScale.DB,
         TeacherId = 1
       };
-      var grade = _gradeService.AddGradeToStudent(gradeVm);
+
+      var gradeTask = _gradeService.AddGradeToStudent(gradeVm);
+      var grade = gradeTask.Result;
+
       Assert.NotNull(grade);
       Assert.Equal(2, DbContext.Grades.Count());
     }
@@ -32,8 +35,12 @@ namespace SchoolRegister.Tests.UnitTests {
         StudentId = 5,
         GetterUserId = 1
       };
-      var gradesReport = _gradeService.GetGradesReportForStudent(getGradesReportForStudent);
+
+      var gradesReportTask = _gradeService.GetGradesReportForStudent(getGradesReportForStudent);
+      var gradesReport = gradesReportTask.Result;
+
       Assert.NotNull(gradesReport);
+      Assert.NotEmpty(gradesReport);
     }
 
     [Fact]
@@ -42,8 +49,12 @@ namespace SchoolRegister.Tests.UnitTests {
         StudentId = 5,
         GetterUserId = 5
       };
-      var gradesReport = _gradeService.GetGradesReportForStudent(getGradesReportForStudent);
+
+      var gradesReportTask = _gradeService.GetGradesReportForStudent(getGradesReportForStudent);
+      var gradesReport = gradesReportTask.Result;
+
       Assert.NotNull(gradesReport);
+      Assert.NotEmpty(gradesReport);
     }
 
     [Fact]
@@ -52,8 +63,12 @@ namespace SchoolRegister.Tests.UnitTests {
         StudentId = 5,
         GetterUserId = 3
       };
-      var gradesReport = _gradeService.GetGradesReportForStudent(getGradesReportForStudent);
+
+      var gradesReportTask = _gradeService.GetGradesReportForStudent(getGradesReportForStudent);
+      var gradesReport = gradesReportTask.Result;
+
       Assert.NotNull(gradesReport);
+      Assert.NotEmpty(gradesReport);
     }
   }
 }

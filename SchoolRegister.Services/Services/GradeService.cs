@@ -73,13 +73,14 @@ namespace SchoolRegister.Services.Services {
 
     public async Task<IEnumerable<GradeVm>> GetGradesReportForStudent(GetGradesReportVm getGradesReportVm) {
       try {
-        var student = DbContext.Users.OfType<Student>().FirstOrDefault(t => t.Id == getGradesReportVm.StudentId);
+        var student = DbContext.Users.OfType<Student>().First(t => t.Id == getGradesReportVm.StudentId);
         var getterUser = DbContext.Users.FirstOrDefault(t => t.Id == getGradesReportVm.GetterUserId);
 
         if (getterUser == null
             || !(await UserManager.IsInRoleAsync(getterUser, "Student")
-                 || await UserManager.IsInRoleAsync(getterUser, "Parent"))) {
-          throw new InvalidOperationException("GetterUserId must correspond to user with \"Student\" or \"Parent\" role");
+                 || await UserManager.IsInRoleAsync(getterUser, "Parent")
+                 || await UserManager.IsInRoleAsync(getterUser, "Teacher"))) {
+          throw new InvalidOperationException("GetterUserId must correspond to user with any of roles: \"Student\", \"Parent\", \"Teacher\"");
         }
 
         return Mapper.Map<IEnumerable<GradeVm>>(student.Grades);
