@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
@@ -16,16 +17,23 @@ namespace SchoolRegister.Services.Services {
 
     public StudentVm AddOrUpdateStudent(AddOrUpdateStudentVm addOrUpdateStudentVm) {
       try {
-        if (addOrUpdateStudentVm == null)
+        if (addOrUpdateStudentVm == null) {
           throw new ArgumentNullException(nameof(addOrUpdateStudentVm), "View model parameter is null");
+        }
 
-        var studentEntity = Mapper.Map<Student>(addOrUpdateStudentVm);
-        if (!addOrUpdateStudentVm.Id.HasValue || addOrUpdateStudentVm.Id == 0)
-          DbContext.Students.Add(studentEntity);
-        else
-          DbContext.Students.Update(studentEntity);
+        Student studentEntity;
+
+        if (!addOrUpdateStudentVm.Id.HasValue || addOrUpdateStudentVm.Id == 0) {
+          studentEntity = DbContext.Students.CreateProxy();
+        } else {
+          studentEntity = DbContext.Students.First(student => student.Id == addOrUpdateStudentVm.Id);
+        }
+
+        Mapper.Map(addOrUpdateStudentVm, studentEntity);
+        DbContext.Students.Update(studentEntity);
 
         DbContext.SaveChanges();
+
         return Mapper.Map<StudentVm>(studentEntity);
       }
       catch (Exception ex) {
@@ -36,12 +44,13 @@ namespace SchoolRegister.Services.Services {
 
     public StudentVm GetStudent(Expression<Func<Student, bool>> filterExpression) {
       try {
-        if (filterExpression == null)
+        if (filterExpression == null) {
           throw new ArgumentNullException(nameof(filterExpression), "FilterExpression is null");
+        }
 
-        var subjectEntity = DbContext.Students.FirstOrDefault(filterExpression);
+        var studentEntity = DbContext.Students.FirstOrDefault(filterExpression);
 
-        return Mapper.Map<StudentVm>(subjectEntity);
+        return Mapper.Map<StudentVm>(studentEntity);
       }
       catch (Exception ex) {
         Logger.LogError(ex, ex.Message);
