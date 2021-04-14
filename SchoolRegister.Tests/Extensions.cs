@@ -151,7 +151,7 @@ namespace SchoolRegister.Tests {
           UserName = "s6@eg.eg",
           Email = "s6@eg.eg",
           RegistrationDate = new DateTime(2019, 05, 1),
-          GroupId = 3,
+          GroupId = null,
           ParentId = 4
         }
       };

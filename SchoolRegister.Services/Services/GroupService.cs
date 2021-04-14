@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
@@ -20,11 +21,16 @@ namespace SchoolRegister.Services.Services {
           throw new ArgumentNullException(nameof(addOrUpdateGroupVm), "View model parameter is null");
         }
 
-        var groupEntity = Mapper.Map<Group>(addOrUpdateGroupVm);
-        if (!addOrUpdateGroupVm.Id.HasValue || addOrUpdateGroupVm.Id == 0)
-          DbContext.Groups.Add(groupEntity);
-        else
-          DbContext.Groups.Update(groupEntity);
+        Group groupEntity;
+
+        if (!addOrUpdateGroupVm.Id.HasValue || addOrUpdateGroupVm.Id == 0) {
+          groupEntity = DbContext.Groups.CreateProxy();
+        } else {
+          groupEntity = DbContext.Groups.First(group => group.Id == addOrUpdateGroupVm.Id);
+        }
+
+        Mapper.Map(addOrUpdateGroupVm, groupEntity);
+        DbContext.Groups.Update(groupEntity);
 
         DbContext.SaveChanges();
 
@@ -42,7 +48,11 @@ namespace SchoolRegister.Services.Services {
           throw new ArgumentNullException(nameof(deleteGroupVm), "View model parameter is null");
         }
 
-        var groupEntity = Mapper.Map<Group>(deleteGroupVm);
+        var groupEntity = DbContext.Groups.Find(deleteGroupVm.Id);
+
+        if (groupEntity == null) {
+          throw new InvalidOperationException( $"Id {deleteGroupVm.Id} does not exist in database.");
+        }
 
         DbContext.Groups.Remove(groupEntity);
         DbContext.SaveChanges();
@@ -85,8 +95,9 @@ namespace SchoolRegister.Services.Services {
 
     public StudentVm AddStudentToGroup(AddStudentToGroupVm addStudentToGroupVm) {
       try {
-        if (addStudentToGroupVm == null)
+        if (addStudentToGroupVm == null) {
           throw new ArgumentNullException(nameof(addStudentToGroupVm), "View model parameter is null");
+        }
 
         var studentEntity = DbContext.Students.First(s => s.Id == addStudentToGroupVm.StudentId);
         if (studentEntity.Group != null) {
