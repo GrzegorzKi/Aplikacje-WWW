@@ -10,5 +10,6 @@ namespace SchoolRegister.Services.Interfaces {
     Task<GradeVm> AddGradeToStudent(AddGradeToStudentVm addGradeToStudentVm);
     GradeVm GetGrade(Expression<Func<Grade, bool>> filterExpression);
     IEnumerable<GradeVm> GetGrades(Expression<Func<Grade, bool>> filterExpression);
+    Task<IEnumerable<GradeVm>> GetGradesReportForStudent(GetGradesReportVm getGradesReportVm);
   }
 }

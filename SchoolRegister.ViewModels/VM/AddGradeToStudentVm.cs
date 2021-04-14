@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using SchoolRegister.Model.DataModels;
 
 namespace SchoolRegister.ViewModels.VM {
   public class AddGradeToStudentVm {
@@ -8,7 +9,7 @@ namespace SchoolRegister.ViewModels.VM {
     public DateTime DateOfIssue { get; set; }
 
     [Required]
-    public string GradeValue { get; set; }
+    public GradeScale GradeValue { get; set; }
 
     [Required]
     public int SubjectId { get; set; }

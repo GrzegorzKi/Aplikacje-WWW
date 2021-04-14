@@ -24,9 +24,9 @@ namespace SchoolRegister.Services.Services {
         if (addGradeToStudentVm == null)
           throw new ArgumentNullException(nameof(addGradeToStudentVm), "View model parameter is null");
 
-        var teacher = DbContext.Users.OfType<Teacher>().First(t => t.Id == addGradeToStudentVm.TeacherId);
+        var teacher = DbContext.Users.OfType<Teacher>().FirstOrDefault(t => t.Id == addGradeToStudentVm.TeacherId);
 
-        if (!await UserManager.IsInRoleAsync(teacher, "Teacher")) {
+        if (teacher == null || !await UserManager.IsInRoleAsync(teacher, "Teacher")) {
           throw new InvalidOperationException("TeacherId must correspond to user with \"Teacher\" role");
         }
 
@@ -64,6 +64,22 @@ namespace SchoolRegister.Services.Services {
         if (filterExpression != null) gradesEntities = gradesEntities.Where(filterExpression);
 
         return Mapper.Map<IEnumerable<GradeVm>>(gradesEntities);
+      }
+      catch (Exception ex) {
+        Logger.LogError(ex, ex.Message);
+        throw;
+      }
+    }
+
+    public async Task<IEnumerable<GradeVm>> GetGradesReportForStudent(GetGradesReportVm getGradesReportVm) {
+      try {
+        var student = DbContext.Users.OfType<Student>().FirstOrDefault(t => t.Id == getGradesReportVm.StudentId);
+
+        if (student == null || !await UserManager.IsInRoleAsync(student, "User")) {
+          throw new InvalidOperationException("StudentId must correspond to user with \"User\" role");
+        }
+
+        return Mapper.Map<IEnumerable<GradeVm>>(student.Grades);
       }
       catch (Exception ex) {
         Logger.LogError(ex, ex.Message);

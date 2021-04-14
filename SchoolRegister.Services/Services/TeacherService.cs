@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Net.Mail;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
@@ -21,14 +18,16 @@ namespace SchoolRegister.Services.Services {
 
     public TeacherVm AddOrUpdateTeacher(AddOrUpdateTeacherVm addOrUpdateTeacherVm) {
       try {
-        if (addOrUpdateTeacherVm == null)
+        if (addOrUpdateTeacherVm == null) {
           throw new ArgumentNullException(nameof(addOrUpdateTeacherVm), "View model parameter is null");
+        }
 
         var teacherEntity = Mapper.Map<Teacher>(addOrUpdateTeacherVm);
-        if (!addOrUpdateTeacherVm.Id.HasValue || addOrUpdateTeacherVm.Id == 0)
+        if (!addOrUpdateTeacherVm.Id.HasValue || addOrUpdateTeacherVm.Id == 0) {
           DbContext.Teachers.Add(teacherEntity);
-        else
+        } else {
           DbContext.Teachers.Update(teacherEntity);
+        }
 
         DbContext.SaveChanges();
         return Mapper.Map<TeacherVm>(teacherEntity);

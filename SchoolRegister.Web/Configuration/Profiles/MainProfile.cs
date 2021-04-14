@@ -27,9 +27,7 @@ namespace SchoolRegister.Web.Configuration.Profiles {
           expression => expression.MapFrom(grade => nameof(grade.GradeValue)))
         .ForMember(vm => vm.StudentName,
           expression => expression.MapFrom(grade => $"{grade.Student.FirstName} {grade.Student.LastName}"));
-      CreateMap<AddGradeToStudentVm, Grade>()
-        .ForMember(grade => grade.GradeValue,
-          expression => expression.MapFrom(vm => Enum.Parse<GradeScale>(vm.GradeValue)));
+      CreateMap<AddGradeToStudentVm, Grade>();
 
       // StudentService.cs
       CreateMap<Student, StudentVm>()

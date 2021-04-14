@@ -28,16 +28,13 @@ namespace SchoolRegister.Services.Services {
           throw new ArgumentNullException(nameof(createEmailVm), "View model parameter is null");
         }
 
-        var teacherTask = DbContext.Users.OfType<Teacher>().FirstAsync(t => t.Id == createEmailVm.SenderId);
-        var parentTask = DbContext.Users.OfType<Parent>().FirstAsync(p => p.Id == createEmailVm.RecipientId);
+        var teacher = await DbContext.Users.OfType<Teacher>().FirstOrDefaultAsync(t => t.Id == createEmailVm.SenderId);
+        var parent = await DbContext.Users.OfType<Parent>().FirstOrDefaultAsync(p => p.Id == createEmailVm.RecipientId);
 
-        var teacher = teacherTask.Result;
-        var parent = parentTask.Result;
-
-        if (!await UserManager.IsInRoleAsync(teacher, "Teacher")) {
+        if (teacher == null || !await UserManager.IsInRoleAsync(teacher, "Teacher")) {
           throw new InvalidOperationException("SenderId must correspond to user with \"Teacher\" role");
         }
-        if (!await UserManager.IsInRoleAsync(parent, "Parent")) {
+        if (parent == null || !await UserManager.IsInRoleAsync(parent, "Parent")) {
           throw new InvalidOperationException("RecipientId must correspond to user with \"Parent\" role");
         }
 

@@ -1,11 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace SchoolRegister.ViewModels.VM {
-  public class AddStudentToGroupVm {
+  public class GetGradesReportVm {
     [Required]
     public int StudentId { get; set; }
-
     [Required]
-    public int GroupId { get; set; }
+    public int GetterUserId { get; set; }
   }
 }
