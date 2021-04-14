@@ -82,5 +82,47 @@ namespace SchoolRegister.Services.Services {
         throw;
       }
     }
+
+    public StudentVm AddStudentToGroup(AddStudentToGroupVm addStudentToGroupVm) {
+      try {
+        if (addStudentToGroupVm == null)
+          throw new ArgumentNullException(nameof(addStudentToGroupVm), "View model parameter is null");
+
+        var studentEntity = DbContext.Students.First(s => s.Id == addStudentToGroupVm.StudentId);
+        if (studentEntity.Group != null) {
+          throw new InvalidOperationException("Student is already in a group. Remove group first before assigning new one");
+        }
+
+        studentEntity.GroupId = addStudentToGroupVm.GroupId;
+        DbContext.SaveChanges();
+
+        return Mapper.Map<StudentVm>(studentEntity);
+      }
+      catch (Exception ex) {
+        Logger.LogError(ex, ex.Message);
+        throw;
+      }
+    }
+
+    public StudentVm RemoveStudentFromGroup(RemoveStudentFromGroupVm removeStudentFromGroupVm) {
+      try {
+        if (removeStudentFromGroupVm == null)
+          throw new ArgumentNullException(nameof(removeStudentFromGroupVm), "View model parameter is null");
+
+        var studentEntity = DbContext.Students.First(s => s.Id == removeStudentFromGroupVm.StudentId);
+        if (studentEntity.GroupId != removeStudentFromGroupVm.GroupId) {
+          throw new InvalidOperationException($"Student is not in a group of id {removeStudentFromGroupVm.GroupId}");
+        }
+
+        studentEntity.GroupId = null;
+        DbContext.SaveChanges();
+
+        return Mapper.Map<StudentVm>(studentEntity);
+      }
+      catch (Exception ex) {
+        Logger.LogError(ex, ex.Message);
+        throw;
+      }
+    }
   }
 }

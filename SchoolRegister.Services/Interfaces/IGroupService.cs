@@ -10,5 +10,7 @@ namespace SchoolRegister.Services.Interfaces {
     GroupVm DeleteGroup(DeleteGroupVm deleteGroupVm);
     GroupVm GetGroup(Expression<Func<Group, bool>> filterExpression);
     IEnumerable<GroupVm> GetGroups(Expression<Func<Group, bool>> filterExpression);
+    StudentVm AddStudentToGroup(AddStudentToGroupVm addStudentToGroupVm);
+    StudentVm RemoveStudentFromGroup(RemoveStudentFromGroupVm removeStudentFromGroupVm);
   }
 }

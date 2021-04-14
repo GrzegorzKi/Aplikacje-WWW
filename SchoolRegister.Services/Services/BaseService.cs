@@ -8,7 +8,7 @@ namespace SchoolRegister.Services.Services {
     protected readonly IMapper Mapper;
     protected readonly ILogger Logger;
 
-    public BaseService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger) {
+    protected BaseService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger) {
       DbContext = dbContext;
       Mapper = mapper;
       Logger = logger;

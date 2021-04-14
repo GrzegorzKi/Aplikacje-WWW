@@ -9,7 +9,5 @@ namespace SchoolRegister.Services.Interfaces {
     StudentVm AddOrUpdateStudent(AddOrUpdateStudentVm addOrUpdateStudentVm);
     StudentVm GetStudent(Expression<Func<Student, bool>> filterExpression);
     IEnumerable<StudentVm> GetStudents(Expression<Func<Student, bool>> filterExpression);
-    StudentVm AddStudentToGroup(AddStudentToGroupVm addStudentToGroupVm);
-    StudentVm RemoveStudentFromGroup(RemoveStudentFromGroupVm removeStudentFromGroupVm);
   }
 }
