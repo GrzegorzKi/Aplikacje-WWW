@@ -45,8 +45,9 @@ namespace SchoolRegister.Services.Services {
 
     public GradeVm GetGrade(Expression<Func<Grade, bool>> filterExpression) {
       try {
-        if (filterExpression == null)
+        if (filterExpression == null) {
           throw new ArgumentNullException(nameof(filterExpression), "FilterExpression is null");
+        }
 
         var gradeEntity = DbContext.Grades.FirstOrDefault(filterExpression);
 
@@ -73,6 +74,10 @@ namespace SchoolRegister.Services.Services {
 
     public async Task<IEnumerable<GradeVm>> GetGradesReportForStudent(GetGradesReportVm getGradesReportVm) {
       try {
+        if (getGradesReportVm == null) {
+          throw new ArgumentNullException(nameof(getGradesReportVm), "GetGradesReportVm is null");
+        }
+
         var student = DbContext.Users.OfType<Student>().First(t => t.Id == getGradesReportVm.StudentId);
         var getterUser = DbContext.Users.FirstOrDefault(t => t.Id == getGradesReportVm.GetterUserId);
 
