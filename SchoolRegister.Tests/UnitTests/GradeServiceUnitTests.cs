@@ -31,6 +31,20 @@ namespace SchoolRegister.Tests.UnitTests {
     }
 
     [Fact]
+    public void AddGradeToStudentWithNonExistentIdShouldThrowException() {
+      var gradeVm = new AddGradeToStudentVm {
+        StudentId = -1,
+        SubjectId = 1,
+        GradeValue = GradeScale.DB,
+        TeacherId = 1
+      };
+
+      var gradeTask = _gradeService.AddGradeToStudent(gradeVm);
+      var exception = Assert.Throws<AggregateException>(() => gradeTask.Result);
+      Assert.IsType<InvalidOperationException>(exception.InnerExceptions.First());
+    }
+
+    [Fact]
     public void AddGradeToStudentWithUserOtherThanTeacherShouldThrowException() {
       var gradeVm = new AddGradeToStudentVm {
         StudentId = 5,

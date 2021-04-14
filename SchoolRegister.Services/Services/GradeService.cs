@@ -25,17 +25,21 @@ namespace SchoolRegister.Services.Services {
           throw new ArgumentNullException(nameof(addGradeToStudentVm), "View model parameter is null");
 
         var teacher = DbContext.Users.OfType<Teacher>().FirstOrDefault(t => t.Id == addGradeToStudentVm.TeacherId);
+        var student = DbContext.Users.OfType<Student>().FirstOrDefault(t => t.Id == addGradeToStudentVm.StudentId);
 
         if (teacher == null || !await UserManager.IsInRoleAsync(teacher, "Teacher")) {
           throw new InvalidOperationException("TeacherId must correspond to user with \"Teacher\" role");
         }
+        if (student == null || !await UserManager.IsInRoleAsync(student, "Student")) {
+          throw new InvalidOperationException("StudentId must correspond to user with \"Student\" role");
+        }
 
-        var groupEntity = Mapper.Map<Grade>(addGradeToStudentVm);
+        var gradeEntity = Mapper.Map<Grade>(addGradeToStudentVm);
 
-        await DbContext.Grades.AddAsync(groupEntity);
+        await DbContext.Grades.AddAsync(gradeEntity);
         await DbContext.SaveChangesAsync();
 
-        return Mapper.Map<GradeVm>(groupEntity);
+        return Mapper.Map<GradeVm>(gradeEntity);
       }
       catch (Exception ex) {
         Logger.LogError(ex, ex.Message);
