@@ -2,6 +2,9 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SchoolRegister.Model.DataModels;
 
+// dotnet ef migrations add <name> --project .\SchoolRegister.DAL\SchoolRegister.DAL.csproj --startup-project .\SchoolRegister.Web\SchoolRegister.Web.csproj
+// dotnet ef database update --project .\SchoolRegister.DAL\SchoolRegister.DAL.csproj --startup-project .\SchoolRegister.Web\SchoolRegister.Web.csproj
+
 namespace SchoolRegister.DAL.EF {
   public class ApplicationDbContext : IdentityDbContext<User, Role, int> {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -38,6 +41,55 @@ namespace SchoolRegister.DAL.EF {
 
       modelBuilder.Entity<SubjectGroup>()
         .HasKey(sg => new {sg.GroupId, sg.SubjectId});
+
+      modelBuilder.Entity<Subject>()
+        .HasKey(s => s.Id);
+
+      modelBuilder.Entity<Group>()
+        .HasKey(s => s.Id);
+
+      modelBuilder.Entity<Subject>()
+        .HasMany(t => t.Grades)
+        .WithOne(s => s.Subject)
+        .HasForeignKey(x => x.SubjectId)
+        .IsRequired();
+
+      modelBuilder.Entity<Subject>()
+        .HasMany(t => t.SubjectGroups)
+        .WithOne(s => s.Subject)
+        .HasForeignKey(x => x.SubjectId)
+        .IsRequired();
+
+      modelBuilder.Entity<Group>()
+        .HasMany(g => g.Students)
+        .WithOne(s => s.Group)
+        .HasForeignKey(x => x.GroupId);
+
+      modelBuilder.Entity<Group>()
+        .HasMany(g => g.SubjectGroups)
+        .WithOne(s => s.Group)
+        .HasForeignKey(x => x.GroupId)
+        .IsRequired();
+
+      modelBuilder.Entity<Student>()
+        .HasMany(s => s.Grades)
+        .WithOne(g => g.Student)
+        .HasForeignKey(x => x.StudentId)
+        .IsRequired();
+
+      modelBuilder.Entity<Parent>()
+        .HasMany(s => s.Students)
+        .WithOne(g => g.Parent)
+        .HasForeignKey(x => x.ParentId)
+        .IsRequired()
+        .OnDelete(DeleteBehavior.NoAction);
+
+      modelBuilder.Entity<Teacher>()
+        .HasMany(t => t.Subjects)
+        .WithOne(s => s.Teacher)
+        .HasForeignKey(x => x.TeacherId)
+        .IsRequired()
+        .OnDelete(DeleteBehavior.NoAction);
     }
   }
 }

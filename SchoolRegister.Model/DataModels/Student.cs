@@ -5,16 +5,11 @@ using System.Linq;
 
 namespace SchoolRegister.Model.DataModels {
   public class Student : User {
-    [ForeignKey("Group")]
     public int? GroupId { get; set; }
-
-    [ForeignKey("Parent")]
-    public int? ParentId { get; set; }
-
-    public virtual IList<Grade> Grades { get; set; }
+    public int ParentId { get; set; }
 
     [NotMapped]
-    public double AverageGrade => Grades == null || Grades.Count ==0 ? 0.0d : Math.Round(Grades.Average(g=>(int)g.GradeValue),1);
+    public double AverageGrade => Grades == null || Grades.Count == 0 ? 0.0d : Math.Round(Grades.Average(g=>(int)g.GradeValue),1);
     [NotMapped]
     public IDictionary<string, double> AverageGradePerSubject => Grades?.GroupBy(g => g.Subject.Name)
       .Select(g => new {SubjectName = g.Key, AvgGrade = Math.Round(g.Average(avg => (int) avg.GradeValue), 1)})
@@ -26,5 +21,7 @@ namespace SchoolRegister.Model.DataModels {
 
     public virtual Group Group { get; set; }
     public virtual Parent Parent { get; set; }
+
+    public virtual IList<Grade> Grades { get; set; }
   }
 }

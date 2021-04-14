@@ -4,13 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SchoolRegister.Model.DataModels {
   public class Subject {
-    [Key]
     public int Id { get; set; }
-
     public string Name { get; set; }
     public string Description { get; set; }
 
-    [ForeignKey("Teacher")]
     public int? TeacherId { get; set; }
 
     public virtual IList<Grade> Grades { get; set; }
