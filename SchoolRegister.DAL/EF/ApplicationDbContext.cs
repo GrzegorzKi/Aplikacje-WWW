@@ -9,10 +9,11 @@ namespace SchoolRegister.DAL.EF {
 
     // Table properties e.g
     public virtual DbSet<Group> Groups { get; set; }
+    public virtual DbSet<Subject> Subjects { get; set; }
+    public virtual DbSet<SubjectGroup> SubjectGroups { get; set; }
     public virtual DbSet<Grade> Grades { get; set; }
     public virtual DbSet<Parent> Parents { get; set; }
     public virtual DbSet<Student> Students { get; set; }
-    public virtual DbSet<Subject> Subjects { get; set; }
     public virtual DbSet<Teacher> Teachers { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
