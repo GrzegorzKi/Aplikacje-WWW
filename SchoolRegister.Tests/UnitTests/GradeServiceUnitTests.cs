@@ -60,7 +60,9 @@ namespace SchoolRegister.Tests.UnitTests {
     [Fact]
     public void GetGrade() {
       var grade = _gradeService.GetGrade(g => g.StudentId == 5);
+
       Assert.NotNull(grade);
+      Assert.Equal(5, grade.StudentId);
     }
 
     [Fact]
@@ -74,6 +76,7 @@ namespace SchoolRegister.Tests.UnitTests {
 
       Assert.NotNull(grades);
       Assert.NotEmpty(grades);
+      Assert.All(grades, vm => Assert.Equal(5, vm.StudentId));
     }
 
     [Fact]
@@ -104,6 +107,7 @@ namespace SchoolRegister.Tests.UnitTests {
 
       Assert.NotNull(gradesReport);
       Assert.NotEmpty(gradesReport);
+      Assert.All(gradesReport, vm => Assert.Equal(5, vm.StudentId));
     }
 
     [Fact]
@@ -118,6 +122,7 @@ namespace SchoolRegister.Tests.UnitTests {
 
       Assert.NotNull(gradesReport);
       Assert.NotEmpty(gradesReport);
+      Assert.All(gradesReport, vm => Assert.Equal(5, vm.StudentId));
     }
 
     [Fact]
@@ -132,6 +137,7 @@ namespace SchoolRegister.Tests.UnitTests {
 
       Assert.NotNull(gradesReport);
       Assert.NotEmpty(gradesReport);
+      Assert.All(gradesReport, vm => Assert.Equal(5, vm.StudentId));
     }
 
     [Fact]
