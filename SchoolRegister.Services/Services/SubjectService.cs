@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
@@ -19,12 +20,16 @@ namespace SchoolRegister.Services.Services {
         if (addOrUpdateSubjectVm == null)
           throw new ArgumentNullException(nameof(addOrUpdateSubjectVm), "View model parameter is null");
 
-        var subjectEntity = Mapper.Map<Subject>(addOrUpdateSubjectVm);
+        Subject subjectEntity;
+
         if (!addOrUpdateSubjectVm.Id.HasValue || addOrUpdateSubjectVm.Id == 0) {
-          DbContext.Subjects.Add(subjectEntity);
+          subjectEntity = DbContext.Subjects.CreateProxy();
         } else {
-          DbContext.Subjects.Update(subjectEntity);
+          subjectEntity = DbContext.Subjects.First(group => group.Id == addOrUpdateSubjectVm.Id);
         }
+
+        Mapper.Map(addOrUpdateSubjectVm, subjectEntity);
+        DbContext.Subjects.Update(subjectEntity);
 
         DbContext.SaveChanges();
         return Mapper.Map<SubjectVm>(subjectEntity);
