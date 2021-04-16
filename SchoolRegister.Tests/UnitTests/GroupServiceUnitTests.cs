@@ -39,8 +39,7 @@ namespace SchoolRegister.Tests.UnitTests {
     }
 
     [Fact]
-    public void UpdateStudentWithNullArgumentShouldThrowException() {
-
+    public void UpdateGroupWithNullArgumentShouldThrowException() {
       Assert.Throws<ArgumentNullException>(() => _groupService.AddOrUpdateGroup(null));
     }
 
@@ -85,19 +84,19 @@ namespace SchoolRegister.Tests.UnitTests {
 
     [Fact]
     public void GetGroups() {
-      var group = _groupService.GetGroups(g => g.Id == 1);
+      var groups = _groupService.GetGroups(g => g.Id == 1);
 
-      Assert.NotNull(group);
-      Assert.NotEmpty(group);
-      Assert.All(group, vm => Assert.Equal(1, vm.Id));
+      Assert.NotNull(groups);
+      Assert.NotEmpty(groups);
+      Assert.All(groups, vm => Assert.Equal(1, vm.Id));
     }
 
     [Fact]
     public void GetGroupsWithNullArgument() {
-      var group = _groupService.GetGroups(null);
+      var groups = _groupService.GetGroups(null);
 
-      Assert.NotNull(group);
-      Assert.NotEmpty(group);
+      Assert.NotNull(groups);
+      Assert.NotEmpty(groups);
     }
 
     [Fact]
