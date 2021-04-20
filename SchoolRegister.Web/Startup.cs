@@ -1,3 +1,5 @@
+using System.Net;
+using System.Net.Mail;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -8,6 +10,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
+using SchoolRegister.Services.Interfaces;
+using SchoolRegister.Services.Services;
 
 namespace SchoolRegister.Web {
   public class Startup {
@@ -31,6 +35,27 @@ namespace SchoolRegister.Web {
         .AddEntityFrameworkStores<ApplicationDbContext>();
 
       services.AddTransient(typeof(ILogger), typeof(Logger<Startup>));
+      services.AddScoped<ISubjectService, SubjectService>();
+      services.AddScoped<IEmailSenderService, EmailSenderService>();
+      services.AddScoped<IGradeService, GradeService>();
+      services.AddScoped<IGroupService, GroupService>();
+      services.AddScoped<IStudentService, StudentService>();
+      services.AddScoped<ITeacherService, TeacherService>();
+      services.AddScoped(serviceProvider => {
+        // Czy nie potrzeba nam też Singleton IConfiguration?
+        var config = serviceProvider.GetRequiredService<IConfiguration>();
+        return new SmtpClient {
+          Host = config.GetValue<string>("Email:Smtp:Host"),
+          Port = config.GetValue<int>("Email:Smtp:Port"),
+          EnableSsl = true,
+          DeliveryMethod = SmtpDeliveryMethod.Network,
+          UseDefaultCredentials = false,
+          Credentials = new NetworkCredential(
+            config.GetValue<string>("Email:Smtp:Username"),
+            config.GetValue<string>("Email:Smtp:Password")
+          )
+        };
+      });
       services.AddControllersWithViews();
     }
 
