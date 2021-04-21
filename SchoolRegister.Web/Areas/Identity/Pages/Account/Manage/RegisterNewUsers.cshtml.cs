@@ -55,7 +55,7 @@ namespace SchoolRegister.Web.Areas.Identity.Pages.Account.Manage {
     }
 
     public async Task<IActionResult> OnPostAsync() {
-      var returnUrl = "~/Identity/Account/Manage/RegisterNewUsers";
+      var returnUrl = "./RegisterNewUsers";
       if (ModelState.IsValid) {
         var tupleUserRole = CreateUserBasedOnRole(Input);
         var result = await _userManager.CreateAsync(tupleUserRole.Item1, Input.Password);
