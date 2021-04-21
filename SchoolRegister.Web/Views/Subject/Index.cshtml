@@ -1,0 +1,73 @@
+@model IEnumerable<SubjectVm>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Subject</h1>
+
+<p>
+    <a asp-action="AddOrEditSubject">Create New</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @HtmlHelperDisplayNameExtensions.DisplayNameFor(Html,
+                model => model.Name)
+        </th>
+        <th>
+            @HtmlHelperDisplayNameExtensions.DisplayNameFor(Html,
+                model => model.Description)
+        </th>
+        <th>
+            @HtmlHelperDisplayNameExtensions.DisplayNameFor(Html,
+                model => model.TeacherName)
+        </th>
+        <th>
+            <label>Groups Count</label>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TeacherName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Groups.Count)
+            </td>
+            <td>
+                @Html.ActionLink("Edit",
+                    "AddOrEditSubject",
+                    new {
+                        id = item.Id
+                    }) |
+                @Html.ActionLink("Details",
+                    "Details",
+                    new {
+                        id = item.Id
+                    }) |
+                @Html.ActionLink("Attach Subject to Group",
+                    "AttachSubjectToGroup",
+                    "Group",
+                    new {
+                        subjectId = item.Id
+                    }) |
+                @Html.ActionLink("Detach Subject to Group",
+                    "DetachSubjectToGroup",
+                    "Group",
+                    new {
+                        subjectId = item.Id
+                    })
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
