@@ -23,9 +23,7 @@ namespace SchoolRegister.Web.Controllers {
       UserManager<User> userManager,
       IStringLocalizer localizer,
       ILogger logger,
-      IMapper mapper) : base(logger,
-      mapper,
-      localizer) {
+      IMapper mapper) : base(logger, mapper, localizer) {
       _subjectService = subjectService;
       _teacherService = teacherService;
       _userManager = userManager;
@@ -33,27 +31,26 @@ namespace SchoolRegister.Web.Controllers {
 
     public async Task<IActionResult> Index() {
       var user = await _userManager.GetUserAsync(User);
-      if (await _userManager.IsInRoleAsync(user,
-        "Admin")) return View(_subjectService.GetSubjects());
 
-      if (await _userManager.IsInRoleAsync(user,
-        "Teacher")) {
-        var teacher = await _userManager.GetUserAsync(User) as Teacher;
+      if (await _userManager.IsInRoleAsync(user, "Admin")) {
+        return View(_subjectService.GetSubjects());
+      }
+
+      if (await _userManager.IsInRoleAsync(user, "Teacher")) {
+        var teacher = user as Teacher;
         return View(_subjectService.GetSubjects(x => x.TeacherId == teacher.Id));
       }
 
       return View("Error");
     }
 
-    [HttpGet]
     public IActionResult AddOrEditSubject(int? id = null) {
       var teachersVm = _teacherService.GetTeachers();
       ViewBag.TeachersSelectList = new SelectList(teachersVm.Select(t => new {
           Text = t.TeacherName,
           Value = t.Id
-        }),
-        "Value",
-        "Text");
+      }), "Value", "Text");
+
       if (id.HasValue) {
         var subjectVm = _subjectService.GetSubject(x => x.Id == id);
         ViewBag.ActionType = "Edit";
