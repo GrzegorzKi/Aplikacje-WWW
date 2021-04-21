@@ -1,17 +1,22 @@
+using System.Globalization;
 using System.Net;
 using System.Net.Mail;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.Services.Services;
+using SchoolRegister.Web.Controllers;
 
 namespace SchoolRegister.Web {
   public class Startup {
@@ -34,7 +39,9 @@ namespace SchoolRegister.Web {
         .AddUserManager<UserManager<User>>()
         .AddEntityFrameworkStores<ApplicationDbContext>();
 
-      services.AddTransient(typeof(ILogger), typeof(Logger<Startup>));
+      services.AddTransient(typeof(ILogger),
+        typeof(Logger<Startup>));
+      services.AddTransient<IStringLocalizer, StringLocalizer<BaseController>>();
       services.AddScoped<ISubjectService, SubjectService>();
       services.AddScoped<IEmailSenderService, EmailSenderService>();
       services.AddScoped<IGradeService, GradeService>();
@@ -56,7 +63,20 @@ namespace SchoolRegister.Web {
           )
         };
       });
-      services.AddControllersWithViews();
+      services.Configure<RequestLocalizationOptions>(options => {
+        var supportedCultures = new CultureInfo[] {
+          new("en"),
+          new("pl-PL")
+        };
+        options.DefaultRequestCulture = new RequestCulture("en",
+          "en");
+        options.SupportedCultures = supportedCultures;
+        options.SupportedUICultures = supportedCultures;
+      });
+      services.AddLocalization(options => options.ResourcesPath = "Resources");
+      services.AddControllersWithViews()
+        .AddViewLocalization()
+        .AddDataAnnotationsLocalization();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -78,8 +98,9 @@ namespace SchoolRegister.Web {
       app.UseAuthentication();
       app.UseAuthorization();
 
-      app.UseEndpoints(endpoints =>
-      {
+      var localizationOption = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+
+      app.UseEndpoints(endpoints => {
         endpoints.MapControllerRoute(
           "default",
           "{controller=Home}/{action=Index}/{id?}");
