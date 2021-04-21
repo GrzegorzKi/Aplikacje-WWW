@@ -56,6 +56,7 @@ namespace SchoolRegister.Web.Areas.Identity.Pages.Account.Manage {
 
     public async Task<IActionResult> OnPostAsync() {
       var returnUrl = "./RegisterNewUsers";
+
       if (ModelState.IsValid) {
         var tupleUserRole = CreateUserBasedOnRole(Input);
         var result = await _userManager.CreateAsync(tupleUserRole.Item1, Input.Password);
@@ -72,9 +73,9 @@ namespace SchoolRegister.Web.Areas.Identity.Pages.Account.Manage {
             Request.Scheme);
           await _userManager.AddToRoleAsync(tupleUserRole.Item1, tupleUserRole.Item2.Name);
           return LocalRedirect(returnUrl);
+        } else {
+          foreach (var error in result.Errors) ModelState.AddModelError(string.Empty, error.Description);
         }
-
-        foreach (var error in result.Errors) ModelState.AddModelError(string.Empty, error.Description);
       }
 
       OnGet();
@@ -85,7 +86,9 @@ namespace SchoolRegister.Web.Areas.Identity.Pages.Account.Manage {
 
     private Tuple<User, Role> CreateUserBasedOnRole(RegisterNewUserVm inputModel) {
       var role = _dbContext.Roles.FirstOrDefault(r => r.Id == inputModel.RoleId);
-      if (role == null) throw new InvalidOperationException($"Role with id {inputModel.RoleId} does not exist");
+      if (role == null) {
+        throw new InvalidOperationException($"Role with id {inputModel.RoleId} does not exist");
+      }
 
       switch (role.RoleValue) {
         case RoleValue.Student:

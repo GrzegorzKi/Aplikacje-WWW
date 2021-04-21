@@ -5,14 +5,17 @@
 csharp_indent_braces = false
 csharp_new_line_before_else = false
 csharp_new_line_before_members_in_object_initializers = false
-csharp_new_line_before_open_brace = accessors,anonymous_methods,control_blocks,events,indexers,lambdas,properties
+csharp_new_line_before_open_brace = accessors,control_blocks,events,indexers,properties
 
 # ReSharper properties
+resharper_continuous_indent_multiplier = 2
 resharper_csharp_empty_block_style = together_same_line
 resharper_csharp_indent_size = 2
 resharper_csharp_other_braces = end_of_line
+resharper_csharp_wrap_arguments_style = wrap_if_long
 resharper_place_accessorholder_attribute_on_same_line = false
 resharper_remove_blank_lines_near_braces_in_code = false
+resharper_wrap_arguments_style = wrap_if_long
 resharper_wrap_object_and_collection_initializer_style = chop_always
 
 [*.cs]

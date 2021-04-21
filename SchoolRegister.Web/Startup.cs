@@ -39,8 +39,7 @@ namespace SchoolRegister.Web {
         .AddUserManager<UserManager<User>>()
         .AddEntityFrameworkStores<ApplicationDbContext>();
 
-      services.AddTransient(typeof(ILogger),
-        typeof(Logger<Startup>));
+      services.AddTransient(typeof(ILogger), typeof(Logger<Startup>));
       services.AddTransient<IStringLocalizer, StringLocalizer<BaseController>>();
       services.AddScoped<ISubjectService, SubjectService>();
       services.AddScoped<IEmailSenderService, EmailSenderService>();
@@ -49,7 +48,6 @@ namespace SchoolRegister.Web {
       services.AddScoped<IStudentService, StudentService>();
       services.AddScoped<ITeacherService, TeacherService>();
       services.AddScoped(serviceProvider => {
-        // Czy nie potrzeba nam też Singleton IConfiguration?
         var config = serviceProvider.GetRequiredService<IConfiguration>();
         return new SmtpClient {
           Host = config.GetValue<string>("Email:Smtp:Host"),
@@ -68,8 +66,7 @@ namespace SchoolRegister.Web {
           new("en"),
           new("pl-PL")
         };
-        options.DefaultRequestCulture = new RequestCulture("en",
-          "en");
+        options.DefaultRequestCulture = new RequestCulture("en", "en");
         options.SupportedCultures = supportedCultures;
         options.SupportedUICultures = supportedCultures;
       });
