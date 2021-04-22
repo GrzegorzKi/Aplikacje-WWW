@@ -1,9 +1,9 @@
 @model IEnumerable<SubjectVm>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Subjects";
 }
 
-<h1>Subject</h1>
+<h1>Subjects</h1>
 
 <p>
     <a asp-action="AddOrEditSubject">Create New</a>
@@ -26,6 +26,7 @@
         <th>
             <label>Groups Count</label>
         </th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
@@ -60,8 +61,8 @@
                     new {
                         subjectId = item.Id
                     }) |
-                @Html.ActionLink("Detach Subject to Group",
-                    "DetachSubjectToGroup",
+                @Html.ActionLink("Detach Subject from Group",
+                    "DetachSubjectFromGroup",
                     "Group",
                     new {
                         subjectId = item.Id

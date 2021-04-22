@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using AutoMapper;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.ViewModels.VM;
@@ -14,7 +13,8 @@ namespace SchoolRegister.Web.Configuration.Profiles {
         .ForMember(vm => vm.Groups,
           expression => expression.MapFrom(subject => subject.SubjectGroups.Select(group => group.Group)));
       CreateMap<AddOrUpdateSubjectVm, Subject>();
-      CreateMap<SubjectVm, AddOrUpdateSubjectVm>(); // Czy potrzebne?
+      CreateMap<SubjectVm, AddOrUpdateSubjectVm>();
+      CreateMap<GroupVm, AddOrUpdateGroupVm>();
 
       // GroupService.cs
       CreateMap<Group, GroupVm>();
