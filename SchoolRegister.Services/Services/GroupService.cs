@@ -135,5 +135,54 @@ namespace SchoolRegister.Services.Services {
         throw;
       }
     }
+
+    public SubjectVm AttachSubjectToGroup(AttachSubjectToGroupVm attachSubjectToGroupVm) {
+      try {
+        if (attachSubjectToGroupVm == null) {
+          throw new ArgumentNullException(nameof(attachSubjectToGroupVm), "View model parameter is null");
+        }
+
+        var subject = DbContext.Subjects.First(s => s.Id == attachSubjectToGroupVm.SubjectId);
+        var groupFound = subject.SubjectGroups.FirstOrDefault(sg => sg.GroupId == attachSubjectToGroupVm.GroupId);
+        if (groupFound != null) {
+          throw new InvalidOperationException("Subject is already in a group");
+        }
+
+        var subjectGroup = DbContext.SubjectGroups.CreateProxy();
+        subjectGroup.GroupId = attachSubjectToGroupVm.GroupId;
+        subjectGroup.SubjectId = attachSubjectToGroupVm.SubjectId;
+        subject.SubjectGroups.Add(subjectGroup);
+
+        DbContext.SaveChanges();
+
+        return Mapper.Map<SubjectVm>(subject);
+      }
+      catch (Exception ex) {
+        Logger.LogError(ex, ex.Message);
+        throw;
+      }
+    }
+
+    public SubjectVm DetachSubjectFromGroup(DetachSubjectFromGroupVm detachSubjectFromGroupVm) {
+      try {
+        if (detachSubjectFromGroupVm == null)
+          throw new ArgumentNullException(nameof(detachSubjectFromGroupVm), "View model parameter is null");
+
+        var subject = DbContext.Subjects.First(s => s.Id == detachSubjectFromGroupVm.SubjectId);
+        var groupFound = subject.SubjectGroups.FirstOrDefault(sg => sg.GroupId == detachSubjectFromGroupVm.GroupId);
+        if (groupFound == null) {
+          throw new InvalidOperationException($"Subject is not in a group of id {detachSubjectFromGroupVm.GroupId}");
+        }
+
+        DbContext.SubjectGroups.Remove(groupFound);
+        DbContext.SaveChanges();
+
+        return Mapper.Map<SubjectVm>(subject);
+      }
+      catch (Exception ex) {
+        Logger.LogError(ex, ex.Message);
+        throw;
+      }
+    }
   }
 }

@@ -166,5 +166,73 @@ namespace SchoolRegister.Tests.UnitTests {
 
       Assert.Throws<InvalidOperationException>(() => _groupService.RemoveStudentFromGroup(removeStudentFromGroupVm));
     }
+
+    [Fact]
+    public void AttachSubjectToGroup() {
+      var attachSubjectToGroup = new AttachSubjectToGroupVm {
+          SubjectId = 3, // This Id cannot have given GroupId assigned
+          GroupId = 1
+      };
+
+      var subject = _groupService.AttachSubjectToGroup(attachSubjectToGroup);
+
+      Assert.NotNull(subject);
+      Assert.Equal(3, subject.Id);
+      Assert.Contains(subject.Groups, vm => vm.Id == 1);
+    }
+
+    [Fact]
+    public void AttachSubjectToGroupWithNullArgumentShouldThrowException() {
+      Assert.Throws<ArgumentNullException>(() => _groupService.AttachSubjectToGroup(null));
+    }
+
+    [Fact]
+    public void AttachSubjectToGroupWhenInAGroupShouldThrowException() {
+      var attachSubjectToGroup = new AttachSubjectToGroupVm {
+          SubjectId = 1,
+          GroupId = 2
+      };
+
+      Assert.Throws<InvalidOperationException>(() => _groupService.AttachSubjectToGroup(attachSubjectToGroup));
+    }
+
+    [Fact]
+    public void DetachSubjectFromGroup() {
+      var detachSubjectFromGroup = new DetachSubjectFromGroupVm {
+          SubjectId = 2, // This Id must have given GroupId assigned
+          GroupId = 1
+      };
+
+      var subject = _groupService.DetachSubjectFromGroup(detachSubjectFromGroup);
+
+      Assert.NotNull(subject);
+      Assert.Equal(2, subject.Id);
+      Assert.DoesNotContain(subject.Groups, vm => vm.Id == 1);
+    }
+
+    [Fact]
+    public void DetachNonExistentSubjectFromGroupShouldThrowException() {
+      var detachSubjectFromGroup = new DetachSubjectFromGroupVm {
+          SubjectId = -1,
+          GroupId = 1
+      };
+
+      Assert.Throws<InvalidOperationException>(() => _groupService.DetachSubjectFromGroup(detachSubjectFromGroup));
+    }
+
+    [Fact]
+    public void DetachSubjectFromGroupWithNullArgumentShouldThrowException() {
+      Assert.Throws<ArgumentNullException>(() => _groupService.DetachSubjectFromGroup(null));
+    }
+
+    [Fact]
+    public void DetachSubjectFromGroupWhenInAWrongGroupShouldThrowException() {
+      var detachSubjectFromGroup = new DetachSubjectFromGroupVm {
+        SubjectId = 6,
+        GroupId = 3
+      };
+
+      Assert.Throws<InvalidOperationException>(() => _groupService.DetachSubjectFromGroup(detachSubjectFromGroup));
+    }
   }
 }
