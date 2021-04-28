@@ -91,8 +91,7 @@ namespace SchoolRegister.Web.Controllers {
       ViewBag.SubjectName = subjectVm.Name;
 
       var groups = _groupService.GetGroups(
-          g => !g.SubjectGroups.Any(
-              sg => sg.SubjectId == subjectVm.Id));
+          g => g.SubjectGroups.All(sg => sg.SubjectId != subjectVm.Id));
 
       ViewBag.GroupsSelectList = new SelectList(groups.Select(t => new {
           Text = t.Name,
@@ -122,8 +121,7 @@ namespace SchoolRegister.Web.Controllers {
       ViewBag.SubjectName = subjectVm.Name;
 
       var groups = _groupService.GetGroups(
-          g => g.SubjectGroups.Any(
-              sg => sg.SubjectId == subjectVm.Id));
+          g => g.SubjectGroups.Any(sg => sg.SubjectId == subjectVm.Id));
 
       ViewBag.GroupsSelectList = new SelectList(groups.Select(t => new {
           Text = t.Name,
@@ -153,8 +151,7 @@ namespace SchoolRegister.Web.Controllers {
       ViewBag.SubjectName = studentVm.StudentName;
 
       var groups = _groupService.GetGroups(
-          g => !g.SubjectGroups.Any(
-              sg => sg.SubjectId == studentVm.Id));
+          g => g.Students.All(s => s.Id != studentVm.Id));
 
       ViewBag.GroupsSelectList = new SelectList(groups.Select(t => new {
           Text = t.Name,
