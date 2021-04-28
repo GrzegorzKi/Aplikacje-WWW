@@ -61,13 +61,13 @@ namespace SchoolRegister.Web.Controllers {
       }), "Value", "Text");
 
       if (id.HasValue) {
-        var groupVm = _studentService.GetStudent(x => x.Id == id);
-        if (groupVm is null) {
+        var studentVm = _studentService.GetStudent(x => x.Id == id);
+        if (studentVm is null) {
           return new NotFoundResult();
         }
 
         ViewBag.ActionType = "Edit";
-        return View(Mapper.Map<AddOrUpdateStudentVm>(groupVm));
+        return View(Mapper.Map<AddOrUpdateStudentVm>(studentVm));
       }
 
       ViewBag.ActionType = "Add";

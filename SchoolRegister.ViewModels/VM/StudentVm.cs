@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using SchoolRegister.Model.DataModels;
 
 namespace SchoolRegister.ViewModels.VM {
   public class StudentVm {
     public int Id { get; set; }
 
     public string StudentName { get; set; }
+
+    public DateTime? RegistrationDate { get; set; }
 
     public double AverageGrade { get; set; }
 

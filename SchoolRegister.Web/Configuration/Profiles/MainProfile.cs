@@ -14,12 +14,12 @@ namespace SchoolRegister.Web.Configuration.Profiles {
           expression => expression.MapFrom(subject => subject.SubjectGroups.Select(group => group.Group)));
       CreateMap<AddOrUpdateSubjectVm, Subject>();
       CreateMap<SubjectVm, AddOrUpdateSubjectVm>();
-      CreateMap<GroupVm, AddOrUpdateGroupVm>();
-      CreateMap<GroupVm, DeleteGroupVm>();
 
       // GroupService.cs
       CreateMap<Group, GroupVm>();
+      CreateMap<GroupVm, AddOrUpdateGroupVm>();
       CreateMap<AddOrUpdateGroupVm, Group>();
+      CreateMap<GroupVm, DeleteGroupVm>();
       CreateMap<DeleteGroupVm, Group>();
 
       // GradeService.cs
@@ -34,10 +34,8 @@ namespace SchoolRegister.Web.Configuration.Profiles {
       CreateMap<Student, StudentVm>()
         .ForMember(vm => vm.StudentName,
           expression => expression.MapFrom(student => $"{student.FirstName} {student.LastName}"));
-      CreateMap<Parent, ParentVm>()
-        .ForMember(vm => vm.ParentName,
-          expression => expression.MapFrom(parent => $"{parent.FirstName} {parent.LastName}"));
-      CreateMap<AddOrUpdateStudentVm, Student>();
+      CreateMap<StudentVm, AddOrUpdateStudentVm>(); // TODO Zrób poprawne mapowanie danych: FirstName, LastName, GroupId
+      // CreateMap<AddOrUpdateStudentVm, StudentVm>();
       // CreateMap<AddStudentToGroupVm, Student>();
       // CreateMap<RemoveStudentFromGroupVm, Student>();
 
@@ -57,6 +55,11 @@ namespace SchoolRegister.Web.Configuration.Profiles {
           expression => expression.MapFrom(parent => $"{parent.FirstName} {parent.LastName}"))
         .ForMember(vm => vm.RecipientEmail,
           expression => expression.MapFrom(parent => parent.Email));
+
+      // ParentService.cs
+      CreateMap<Parent, ParentVm>()
+          .ForMember(vm => vm.ParentName,
+              expression => expression.MapFrom(parent => $"{parent.FirstName} {parent.LastName}"));
     }
   }
 }

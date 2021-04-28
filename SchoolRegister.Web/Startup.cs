@@ -47,6 +47,7 @@ namespace SchoolRegister.Web {
       services.AddScoped<IGroupService, GroupService>();
       services.AddScoped<IStudentService, StudentService>();
       services.AddScoped<ITeacherService, TeacherService>();
+      services.AddScoped<IParentService, ParentService>();
       services.AddScoped(serviceProvider => {
         var config = serviceProvider.GetRequiredService<IConfiguration>();
         return new SmtpClient {
