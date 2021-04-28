@@ -13,6 +13,7 @@ using SchoolRegister.ViewModels.VM;
 
 namespace SchoolRegister.Web.Controllers {
   [Authorize(Roles = "Teacher, Admin")]
+  [AutoValidateAntiforgeryToken]
   public class SubjectController : BaseController {
     private readonly ISubjectService _subjectService;
     private readonly ITeacherService _teacherService;
@@ -44,6 +45,11 @@ namespace SchoolRegister.Web.Controllers {
       return View("Error");
     }
 
+    public IActionResult Details(int id) {
+      var subjectVm = _subjectService.GetSubject(x => x.Id == id);
+      return View(subjectVm);
+    }
+
     public IActionResult AddOrEditSubject(int? id = null) {
       var teachersVm = _teacherService.GetTeachers();
       ViewBag.TeachersSelectList = new SelectList(teachersVm.Select(t => new {
@@ -61,13 +67,7 @@ namespace SchoolRegister.Web.Controllers {
       return View();
     }
 
-    public IActionResult Details(int id) {
-      var subjectVm = _subjectService.GetSubject(x => x.Id == id);
-      return View(subjectVm);
-    }
-
     [HttpPost]
-    [ValidateAntiForgeryToken]
     public IActionResult AddOrEditSubject(AddOrUpdateSubjectVm addOrUpdateSubjectVm) {
       if (ModelState.IsValid) {
         _subjectService.AddOrUpdateSubject(addOrUpdateSubjectVm);

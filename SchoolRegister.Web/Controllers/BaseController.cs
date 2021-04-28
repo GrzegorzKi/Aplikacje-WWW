@@ -4,7 +4,7 @@ using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace SchoolRegister.Web.Controllers {
-  public class BaseController : Controller {
+  public abstract class BaseController : Controller {
     protected readonly IStringLocalizer Localizer;
     protected readonly ILogger Logger;
     protected readonly IMapper Mapper;

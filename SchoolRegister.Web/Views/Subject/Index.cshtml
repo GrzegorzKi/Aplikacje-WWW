@@ -1,3 +1,4 @@
+@using Microsoft.AspNetCore.Mvc.Rendering
 @model IEnumerable<SubjectVm>
 @{
     ViewData["Title"] = "Subjects";
@@ -12,16 +13,13 @@
     <thead>
     <tr>
         <th>
-            @HtmlHelperDisplayNameExtensions.DisplayNameFor(Html,
-                model => model.Name)
+            @HtmlHelperDisplayNameExtensions.DisplayNameFor(Html, model => model.Name)
         </th>
         <th>
-            @HtmlHelperDisplayNameExtensions.DisplayNameFor(Html,
-                model => model.Description)
+            @HtmlHelperDisplayNameExtensions.DisplayNameFor(Html, model => model.Description)
         </th>
         <th>
-            @HtmlHelperDisplayNameExtensions.DisplayNameFor(Html,
-                model => model.TeacherName)
+            @HtmlHelperDisplayNameExtensions.DisplayNameFor(Html, model => model.TeacherName)
         </th>
         <th>
             <label>Groups Count</label>

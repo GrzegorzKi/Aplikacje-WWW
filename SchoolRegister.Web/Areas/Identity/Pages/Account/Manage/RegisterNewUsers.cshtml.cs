@@ -34,7 +34,7 @@ namespace SchoolRegister.Web.Areas.Identity.Pages.Account.Manage {
     }
 
     [BindProperty]
-    public RegisterNewUserVm Input { get; set; }
+    public RegisterNewUserVm Input { get; init; }
 
     public void OnGet() {
       ViewData["Roles"] = new SelectList(_dbContext.Roles.Select(t => new {
