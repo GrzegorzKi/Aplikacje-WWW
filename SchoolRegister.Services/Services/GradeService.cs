@@ -25,7 +25,7 @@ namespace SchoolRegister.Services.Services {
           throw new ArgumentNullException(nameof(addGradeToStudentVm), "View model parameter is null");
 
         var teacher = DbContext.Users.OfType<Teacher>().FirstOrDefault(t => t.Id == addGradeToStudentVm.TeacherId);
-        var student = DbContext.Users.OfType<Student>().FirstOrDefault(t => t.Id == addGradeToStudentVm.StudentId);
+        var student = DbContext.Users.OfType<Student>().FirstOrDefault(s => s.Id == addGradeToStudentVm.StudentId);
 
         if (teacher == null || !await UserManager.IsInRoleAsync(teacher, "Teacher")) {
           throw new InvalidOperationException("TeacherId must correspond to user with \"Teacher\" role");

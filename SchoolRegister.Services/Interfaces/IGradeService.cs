@@ -9,7 +9,7 @@ namespace SchoolRegister.Services.Interfaces {
   public interface IGradeService {
     Task<GradeVm> AddGradeToStudent(AddGradeToStudentVm addGradeToStudentVm);
     GradeVm GetGrade(Expression<Func<Grade, bool>> filterExpression);
-    IEnumerable<GradeVm> GetGrades(Expression<Func<Grade, bool>> filterExpression);
+    IEnumerable<GradeVm> GetGrades(Expression<Func<Grade, bool>> filterExpression = null);
     Task<IEnumerable<GradeVm>> GetGradesReportForStudent(GetGradesReportVm getGradesReportVm);
   }
 }

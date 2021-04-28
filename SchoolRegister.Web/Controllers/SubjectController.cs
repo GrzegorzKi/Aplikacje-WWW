@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -19,27 +18,26 @@ namespace SchoolRegister.Web.Controllers {
     private readonly ITeacherService _teacherService;
     private readonly UserManager<User> _userManager;
 
-    public SubjectController(ISubjectService subjectService,
-      ITeacherService teacherService,
-      UserManager<User> userManager,
-      IStringLocalizer localizer,
-      ILogger logger,
-      IMapper mapper) : base(logger, mapper, localizer) {
+    public SubjectController(
+        ISubjectService subjectService,
+        ITeacherService teacherService,
+        UserManager<User> userManager,
+        ILogger logger,
+        IMapper mapper,
+        IStringLocalizer localizer) : base(logger, mapper, localizer) {
       _subjectService = subjectService;
       _teacherService = teacherService;
       _userManager = userManager;
     }
 
-    public async Task<IActionResult> Index() {
-      var user = await _userManager.GetUserAsync(User);
-
-      if (await _userManager.IsInRoleAsync(user, "Admin")) {
+    public IActionResult Index() {
+      if (User.IsInRole("Admin")) {
         return View(_subjectService.GetSubjects());
       }
 
-      if (await _userManager.IsInRoleAsync(user, "Teacher")) {
-        var teacher = user as Teacher;
-        return View(_subjectService.GetSubjects(x => x.TeacherId == teacher.Id));
+      if (User.IsInRole("Teacher")) {
+        var teacherId = int.Parse(_userManager.GetUserId(User));
+        return View(_subjectService.GetSubjects(x => x.TeacherId == teacherId));
       }
 
       return View("Error");

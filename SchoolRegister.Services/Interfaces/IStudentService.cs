@@ -8,6 +8,6 @@ namespace SchoolRegister.Services.Interfaces {
   public interface IStudentService {
     StudentVm AddOrUpdateStudent(AddOrUpdateStudentVm addOrUpdateStudentVm);
     StudentVm GetStudent(Expression<Func<Student, bool>> filterExpression);
-    IEnumerable<StudentVm> GetStudents(Expression<Func<Student, bool>> filterExpression);
+    IEnumerable<StudentVm> GetStudents(Expression<Func<Student, bool>> filterExpression = null);
   }
 }

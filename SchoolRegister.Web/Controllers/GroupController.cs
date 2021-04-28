@@ -9,19 +9,20 @@ using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
 
 namespace SchoolRegister.Web.Controllers {
-  [Authorize(Roles = "Teacher, Admin")]
+  [Authorize(Roles = "Admin")]
   [AutoValidateAntiforgeryToken]
   public class GroupController : BaseController {
     private readonly IGroupService _groupService;
     private readonly ISubjectService _subjectService;
     private readonly IStudentService _studentService;
 
-    public GroupController(IGroupService groupService,
-      ISubjectService subjectService,
-      IStudentService studentService,
-      IStringLocalizer localizer,
-      ILogger logger,
-      IMapper mapper) : base(logger, mapper, localizer) {
+    public GroupController(
+        IGroupService groupService,
+        ISubjectService subjectService,
+        IStudentService studentService,
+        ILogger logger,
+        IMapper mapper,
+        IStringLocalizer localizer) : base(logger, mapper, localizer) {
       _groupService = groupService;
       _subjectService = subjectService;
       _studentService = studentService;
@@ -98,7 +99,9 @@ namespace SchoolRegister.Web.Controllers {
           Value = t.Id
       }), "Value", "Text");
 
-      return View();
+      var modelVm = new AttachSubjectToGroupVm {SubjectId = subjectId};
+
+      return View(modelVm);
     }
 
     [HttpPost]
@@ -127,7 +130,9 @@ namespace SchoolRegister.Web.Controllers {
           Value = t.Id
       }), "Value", "Text");
 
-      return View();
+      var modelVm = new DetachSubjectFromGroupVm() {SubjectId = subjectId};
+
+      return View(modelVm);
     }
 
     [HttpPost]
@@ -156,7 +161,9 @@ namespace SchoolRegister.Web.Controllers {
           Value = t.Id
       }), "Value", "Text");
 
-      return View();
+      var modelVm = new AddStudentToGroupVm {StudentId = studentId};
+
+      return View(modelVm);
     }
 
     [HttpPost]
@@ -185,7 +192,9 @@ namespace SchoolRegister.Web.Controllers {
           Value = t.Id
       }), "Value", "Text");
 
-      return View();
+      var modelVm = new RemoveStudentFromGroupVm() {StudentId = studentId};
+
+      return View(modelVm);
     }
 
     [HttpPost]
