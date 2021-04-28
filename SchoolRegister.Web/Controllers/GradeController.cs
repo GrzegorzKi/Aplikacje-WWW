@@ -45,6 +45,14 @@ namespace SchoolRegister.Web.Controllers {
           }
         }
 
+        var studentVm = _studentService.GetStudent(s => s.Id == studentId);
+        if (studentVm is null) {
+          return new NotFoundResult();
+        }
+
+        ViewBag.StudentId = studentVm.Id;
+        ViewBag.StudentName = studentVm.StudentName;
+
         var getGradesReportVm = new GetGradesReportVm() {
             StudentId = studentId.Value,
             GetterUserId = userId
@@ -63,6 +71,8 @@ namespace SchoolRegister.Web.Controllers {
       if (studentVm is null) {
         return new NotFoundResult();
       }
+
+      ViewBag.StudentName = studentVm.StudentName;
 
       var subjectsVm = _subjectService.GetSubjects();
       ViewBag.SubjectsSelectList = new SelectList(subjectsVm.Select(t => new {

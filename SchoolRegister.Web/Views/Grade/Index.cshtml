@@ -1,0 +1,54 @@
+@using Microsoft.AspNetCore.Mvc.Rendering
+@model IEnumerable<SchoolRegister.ViewModels.VM.GradeVm>
+
+@{
+    ViewData["Title"] = $"Grades of student {ViewBag.StudentName}";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    @Html.ActionLink("Add Grade to Student", "AddGradeToStudent", new { id = (int)ViewBag.StudentId })
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @HtmlHelperDisplayNameExtensions.DisplayNameFor(Html, model => model.DateOfIssue)
+            </th>
+            <th>
+                @HtmlHelperDisplayNameExtensions.DisplayNameFor(Html, model => model.GradeValue)
+            </th>
+            <th>
+                @HtmlHelperDisplayNameExtensions.DisplayNameFor(Html, model => model.Subject.Name)
+            </th>
+            <th>
+                @HtmlHelperDisplayNameExtensions.DisplayNameFor(Html, model => model.StudentName)
+            </th>
+            <th>
+                @HtmlHelperDisplayNameExtensions.DisplayNameFor(Html, model => model.StudentId)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfIssue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GradeValue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentId)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

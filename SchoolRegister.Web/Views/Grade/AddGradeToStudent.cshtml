@@ -1,0 +1,50 @@
+@using SchoolRegister.Model.DataModels
+@model SchoolRegister.ViewModels.VM.AddGradeToStudentVm
+
+@{
+    ViewData["Title"] = $"Add Grade to student {ViewBag.StudentName}";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddGradeToStudent">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DateOfIssue" class="control-label"></label>
+                <input asp-for="DateOfIssue" class="form-control" />
+                <span asp-validation-for="DateOfIssue" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GradeValue" class="control-label"></label>
+                <select asp-for="GradeValue" class="form-control" asp-items="Html.GetEnumSelectList<GradeScale>()">
+                    <option selected="selected" value="">Please select...</option>
+                </select>
+                <span asp-validation-for="GradeValue" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Subject</label>
+                <select asp-for="SubjectId" class="form-control" asp-items="@ViewBag.SubjectsSelectList"></select>
+                <span asp-validation-for="SubjectId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="StudentId" type="hidden" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input asp-for="TeacherId" type="hidden" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
