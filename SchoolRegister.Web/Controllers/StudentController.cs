@@ -1,7 +1,9 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using SchoolRegister.Model.DataModels;
@@ -12,18 +14,18 @@ namespace SchoolRegister.Web.Controllers {
   [Authorize(Roles = "Admin, Parent, Teacher")]
   [AutoValidateAntiforgeryToken]
   public class StudentController : BaseController {
-    private readonly IGroupService _groupService;
+    private readonly IParentService _parentService;
     private readonly IStudentService _studentService;
     private readonly UserManager<User> _userManager;
 
     public StudentController(
-        IGroupService groupService,
+        IParentService parentService,
         IStudentService studentService,
         UserManager<User> userManager,
         ILogger logger,
         IMapper mapper,
         IStringLocalizer localizer) : base(logger, mapper, localizer) {
-      _groupService = groupService;
+      _parentService = parentService;
       _studentService = studentService;
       _userManager = userManager;
     }
@@ -52,6 +54,12 @@ namespace SchoolRegister.Web.Controllers {
 
     [Authorize(Roles = "Admin")]
     public IActionResult AddOrEditStudent(int? id = null) {
+      var parentVms = _parentService.GetParents();
+      ViewBag.ParentsSelectList = new SelectList(parentVms.Select(p => new {
+          Text = p.ParentName,
+          Value = p.Id
+      }), "Value", "Text");
+
       if (id.HasValue) {
         var groupVm = _studentService.GetStudent(x => x.Id == id);
         if (groupVm is null) {
