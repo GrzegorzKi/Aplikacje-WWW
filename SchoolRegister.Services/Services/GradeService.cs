@@ -34,6 +34,15 @@ namespace SchoolRegister.Services.Services {
           throw new InvalidOperationException("StudentId must correspond to user with \"Student\" role");
         }
 
+        var subject = DbContext.Subjects.FirstOrDefault(s => s.Id == addGradeToStudentVm.SubjectId);
+
+        if (subject == null) {
+          throw new InvalidOperationException($"Subject with id {addGradeToStudentVm.SubjectId} not found");
+        }
+        if (!teacher.Subjects.Contains(subject)) {
+          throw new InvalidOperationException($"Subject with id {addGradeToStudentVm.SubjectId} is not assigned to teacher {teacher.FirstName} {teacher.LastName}");
+        }
+
         var gradeEntity = Mapper.Map<Grade>(addGradeToStudentVm);
 
         await DbContext.Grades.AddAsync(gradeEntity);
@@ -82,7 +91,12 @@ namespace SchoolRegister.Services.Services {
           throw new ArgumentNullException(nameof(getGradesReportVm), "GetGradesReportVm is null");
         }
 
-        var student = DbContext.Users.OfType<Student>().First(t => t.Id == getGradesReportVm.StudentId);
+        var student = DbContext.Users.OfType<Student>().FirstOrDefault(t => t.Id == getGradesReportVm.StudentId);
+
+        if (student == null || !await UserManager.IsInRoleAsync(student, "Student")) {
+          throw new InvalidOperationException("StudentId must correspond to user with \"Student\" role");
+        }
+
         var getterUser = DbContext.Users.FirstOrDefault(t => t.Id == getGradesReportVm.GetterUserId);
 
         if (getterUser == null
@@ -92,7 +106,18 @@ namespace SchoolRegister.Services.Services {
           throw new InvalidOperationException("GetterUserId must correspond to user with any of roles: \"Student\", \"Parent\", \"Teacher\"");
         }
 
-        return Mapper.Map<IEnumerable<GradeVm>>(student.Grades);
+        if (await UserManager.IsInRoleAsync(getterUser, "Student") &&
+            getGradesReportVm.StudentId != getGradesReportVm.GetterUserId) {
+          throw new InvalidOperationException("Student can browse only his own grades");
+        }
+
+        if (await UserManager.IsInRoleAsync(getterUser, "Teacher")) {
+          var teacher = (Teacher) getterUser;
+          var filteredGrades = student.Grades.Where(grade => teacher.Subjects.Contains(grade.Subject)).OrderBy(grade => grade.DateOfIssue);
+          return Mapper.Map<IEnumerable<GradeVm>>(filteredGrades);
+        }
+
+        return Mapper.Map<IEnumerable<GradeVm>>(student.Grades.OrderBy(grade => grade.DateOfIssue));
       }
       catch (Exception ex) {
         Logger.LogError(ex, ex.Message);
