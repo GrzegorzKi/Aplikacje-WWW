@@ -180,16 +180,15 @@ namespace SchoolRegister.Web.Controllers {
       }
       ViewBag.StudentName = studentVm.StudentName;
 
-      var groups = _groupService.GetGroups(
-          g => g.SubjectGroups.Any(
-              sg => sg.SubjectId == studentVm.Id));
+      var group = _groupService.GetGroup(
+          g => g.Students.Any(s => s.Id == studentVm.Id));
 
-      ViewBag.GroupsSelectList = new SelectList(groups.Select(t => new {
-          Text = t.Name,
-          Value = t.Id
-      }), "Value", "Text");
+      ViewBag.Group = group;
 
-      var modelVm = new RemoveStudentFromGroupVm() {StudentId = studentId};
+      var modelVm = new RemoveStudentFromGroupVm() {
+          StudentId = studentId,
+          GroupId = group.Id
+      };
 
       return View(modelVm);
     }
