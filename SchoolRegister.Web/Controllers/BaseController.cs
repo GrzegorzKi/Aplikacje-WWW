@@ -9,7 +9,7 @@ namespace SchoolRegister.Web.Controllers {
     protected readonly ILogger Logger;
     protected readonly IMapper Mapper;
 
-    public BaseController(ILogger logger, IMapper mapper, IStringLocalizer localizer) {
+    protected BaseController(ILogger logger, IMapper mapper, IStringLocalizer localizer) {
       Localizer = localizer;
       Logger = logger;
       Mapper = mapper;

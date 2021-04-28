@@ -47,6 +47,9 @@ namespace SchoolRegister.Web.Controllers {
 
     public IActionResult Details(int id) {
       var subjectVm = _subjectService.GetSubject(x => x.Id == id);
+      if (subjectVm is null) {
+        return new NotFoundResult();
+      }
       return View(subjectVm);
     }
 
@@ -59,6 +62,9 @@ namespace SchoolRegister.Web.Controllers {
 
       if (id.HasValue) {
         var subjectVm = _subjectService.GetSubject(x => x.Id == id);
+        if (subjectVm is null) {
+          return new NotFoundResult();
+        }
         ViewBag.ActionType = "Edit";
         return View(Mapper.Map<AddOrUpdateSubjectVm>(subjectVm));
       }

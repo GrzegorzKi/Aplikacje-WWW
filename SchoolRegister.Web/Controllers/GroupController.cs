@@ -32,19 +32,25 @@ namespace SchoolRegister.Web.Controllers {
     }
 
     public IActionResult Details(int id) {
-      var subjectVm = _groupService.GetGroup(x => x.Id == id);
-      return View(subjectVm);
+      var groupVm = _groupService.GetGroup(x => x.Id == id);
+      if (groupVm is null) {
+        return new NotFoundResult();
+      }
+      return View(groupVm);
     }
 
     public IActionResult AddOrEditGroup(int? id = null) {
       if (id.HasValue) {
         var groupVm = _groupService.GetGroup(x => x.Id == id);
+        if (groupVm is null) {
+          return new NotFoundResult();
+        }
         ViewBag.ActionType = "Edit";
         return View(Mapper.Map<AddOrUpdateGroupVm>(groupVm));
-      } else {
-        ViewBag.ActionType = "Add";
-        return View();
       }
+
+      ViewBag.ActionType = "Add";
+      return View();
     }
 
     [HttpPost]
@@ -59,6 +65,9 @@ namespace SchoolRegister.Web.Controllers {
 
     public IActionResult DeleteGroup(int id) {
       var groupVm = _groupService.GetGroup(x => x.Id == id);
+      if (groupVm is null) {
+        return new NotFoundResult();
+      }
       ViewBag.GroupName = groupVm.Name;
       return View(Mapper.Map<DeleteGroupVm>(groupVm));
     }
@@ -74,12 +83,16 @@ namespace SchoolRegister.Web.Controllers {
     }
 
     public IActionResult AttachSubjectToGroup(int subjectId) {
-      var subject = _subjectService.GetSubject(s => s.Id == subjectId);
-      ViewBag.SubjectName = subject.Name;
+      var subjectVm = _subjectService.GetSubject(s => s.Id == subjectId);
+      if (subjectVm is null) {
+        return new NotFoundResult();
+      }
+      ViewBag.SubjectName = subjectVm.Name;
 
       var groups = _groupService.GetGroups(
           g => !g.SubjectGroups.Any(
-              sg => sg.SubjectId == subject.Id));
+              sg => sg.SubjectId == subjectVm.Id));
+
       ViewBag.GroupsSelectList = new SelectList(groups.Select(t => new {
           Text = t.Name,
           Value = t.Id
@@ -99,12 +112,16 @@ namespace SchoolRegister.Web.Controllers {
     }
 
     public IActionResult DetachSubjectFromGroup(int subjectId) {
-      var subject = _subjectService.GetSubject(s => s.Id == subjectId);
-      ViewBag.SubjectName = subject.Name;
+      var subjectVm = _subjectService.GetSubject(s => s.Id == subjectId);
+      if (subjectVm is null) {
+        return new NotFoundResult();
+      }
+      ViewBag.SubjectName = subjectVm.Name;
 
       var groups = _groupService.GetGroups(
           g => g.SubjectGroups.Any(
-              sg => sg.SubjectId == subject.Id));
+              sg => sg.SubjectId == subjectVm.Id));
+
       ViewBag.GroupsSelectList = new SelectList(groups.Select(t => new {
           Text = t.Name,
           Value = t.Id
@@ -124,12 +141,16 @@ namespace SchoolRegister.Web.Controllers {
     }
 
     public IActionResult AttachStudentToGroup(int studentId) {
-      var student = _studentService.GetStudent(s => s.Id == studentId);
-      ViewBag.SubjectName = student.StudentName;
+      var studentVm = _studentService.GetStudent(s => s.Id == studentId);
+      if (studentVm is null) {
+        return new NotFoundResult();
+      }
+      ViewBag.SubjectName = studentVm.StudentName;
 
       var groups = _groupService.GetGroups(
           g => !g.SubjectGroups.Any(
-              sg => sg.SubjectId == student.Id));
+              sg => sg.SubjectId == studentVm.Id));
+
       ViewBag.GroupsSelectList = new SelectList(groups.Select(t => new {
           Text = t.Name,
           Value = t.Id
@@ -149,12 +170,16 @@ namespace SchoolRegister.Web.Controllers {
     }
 
     public IActionResult DetachStudentFromGroup(int studentId) {
-      var student = _studentService.GetStudent(s => s.Id == studentId);
-      ViewBag.StudentName = student.StudentName;
+      var studentVm = _studentService.GetStudent(s => s.Id == studentId);
+      if (studentVm is null) {
+        return new NotFoundResult();
+      }
+      ViewBag.StudentName = studentVm.StudentName;
 
       var groups = _groupService.GetGroups(
           g => g.SubjectGroups.Any(
-              sg => sg.SubjectId == student.Id));
+              sg => sg.SubjectId == studentVm.Id));
+
       ViewBag.GroupsSelectList = new SelectList(groups.Select(t => new {
           Text = t.Name,
           Value = t.Id
