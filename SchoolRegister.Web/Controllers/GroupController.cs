@@ -57,6 +57,22 @@ namespace SchoolRegister.Web.Controllers {
       return View();
     }
 
+    public IActionResult DeleteGroup(int id) {
+      var groupVm = _groupService.GetGroup(x => x.Id == id);
+      ViewBag.GroupName = groupVm.Name;
+      return View(Mapper.Map<DeleteGroupVm>(groupVm));
+    }
+
+    [HttpPost]
+    public IActionResult DeleteGroup(DeleteGroupVm deleteGroupVm) {
+      if (ModelState.IsValid) {
+        _groupService.DeleteGroup(deleteGroupVm);
+        return RedirectToAction("Index");
+      }
+
+      return View();
+    }
+
     public IActionResult AttachSubjectToGroup(int subjectId) {
       var subject = _subjectService.GetSubject(s => s.Id == subjectId);
       ViewBag.SubjectName = subject.Name;

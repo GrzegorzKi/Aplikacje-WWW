@@ -15,6 +15,7 @@ namespace SchoolRegister.Web.Configuration.Profiles {
       CreateMap<AddOrUpdateSubjectVm, Subject>();
       CreateMap<SubjectVm, AddOrUpdateSubjectVm>();
       CreateMap<GroupVm, AddOrUpdateGroupVm>();
+      CreateMap<GroupVm, DeleteGroupVm>();
 
       // GroupService.cs
       CreateMap<Group, GroupVm>();
