@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using AutoMapper;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SchoolRegister.DAL.EF;
@@ -14,7 +13,7 @@ using SchoolRegister.ViewModels.VM;
 namespace SchoolRegister.Services.Services {
   public class TeacherService : BaseService, ITeacherService {
 
-    public TeacherService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger, UserManager<User> userManager)
+    public TeacherService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger)
       : base(dbContext, mapper, logger) { }
 
     public TeacherVm AddOrUpdateTeacher(AddOrUpdateTeacherVm addOrUpdateTeacherVm) {

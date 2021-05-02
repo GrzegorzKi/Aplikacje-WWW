@@ -81,7 +81,7 @@ namespace SchoolRegister.Tests.UnitTests {
     [Fact]
     public void GetStudentsWithNullArgument() {
 
-      var students = _studentService.GetStudents(null);
+      var students = _studentService.GetStudents();
 
       Assert.NotNull(students);
       Assert.NotEmpty(students);

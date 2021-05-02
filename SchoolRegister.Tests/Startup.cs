@@ -14,7 +14,6 @@ using SchoolRegister.Web.Configuration.Profiles;
 
 namespace SchoolRegister.Tests {
   public class Startup {
-    public Startup() { }
 
     public void ConfigureServices(IServiceCollection services) {
       services.AddAutoMapper(typeof(MainProfile));

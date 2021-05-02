@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SchoolRegister.Model.DataModels {
   public class SubjectGroup {

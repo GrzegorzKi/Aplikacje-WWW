@@ -19,7 +19,7 @@ namespace SchoolRegister.Tests.UnitTests {
       var gradeVm = new AddGradeToStudentVm {
         StudentId = 5,
         SubjectId = 1,
-        GradeValue = GradeScale.DB,
+        GradeValue = GradeScale.Db,
         TeacherId = 1
       };
 
@@ -35,7 +35,7 @@ namespace SchoolRegister.Tests.UnitTests {
       var gradeVm = new AddGradeToStudentVm {
         StudentId = -1,
         SubjectId = 1,
-        GradeValue = GradeScale.DB,
+        GradeValue = GradeScale.Db,
         TeacherId = 1
       };
 
@@ -49,7 +49,7 @@ namespace SchoolRegister.Tests.UnitTests {
       var gradeVm = new AddGradeToStudentVm {
         StudentId = 5,
         SubjectId = 1,
-        GradeValue = GradeScale.BDB,
+        GradeValue = GradeScale.Bdb,
         TeacherId = 5
       };
 
@@ -95,7 +95,7 @@ namespace SchoolRegister.Tests.UnitTests {
 
     [Fact]
     public void GetGradesWithNullArgument() {
-      var grades = _gradeService.GetGrades(null);
+      var grades = _gradeService.GetGrades();
 
       Assert.NotNull(grades);
       Assert.NotEmpty(grades);

@@ -89,7 +89,7 @@ namespace SchoolRegister.Tests.UnitTests {
 
     [Fact]
     public void GetTeachersWithNullArgument() {
-      var group = _teacherService.GetTeachers(null);
+      var group = _teacherService.GetTeachers();
 
       Assert.NotNull(group);
       Assert.NotEmpty(group);

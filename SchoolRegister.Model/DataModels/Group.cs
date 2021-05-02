@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace SchoolRegister.Model.DataModels {
   public class Group {

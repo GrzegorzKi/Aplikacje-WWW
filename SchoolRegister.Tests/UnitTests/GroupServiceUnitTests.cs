@@ -93,7 +93,7 @@ namespace SchoolRegister.Tests.UnitTests {
 
     [Fact]
     public void GetGroupsWithNullArgument() {
-      var groups = _groupService.GetGroups(null);
+      var groups = _groupService.GetGroups();
 
       Assert.NotNull(groups);
       Assert.NotEmpty(groups);
