@@ -101,7 +101,7 @@ namespace SchoolRegister.Tests.UnitTests {
 
     [Fact]
     public void AddStudentToGroup() {
-      var addStudentToGroupVm = new AddStudentToGroupVm {
+      var addStudentToGroupVm = new AttachStudentToGroupVm {
         StudentId = 10, // This Id cannot have GroupId assigned
         GroupId = 1
       };
@@ -120,7 +120,7 @@ namespace SchoolRegister.Tests.UnitTests {
 
     [Fact]
     public void AddStudentToGroupWhenInAGroupShouldThrowException() {
-      var addStudentToGroupVm = new AddStudentToGroupVm {
+      var addStudentToGroupVm = new AttachStudentToGroupVm {
         StudentId = 5,
         GroupId = 1
       };
@@ -130,7 +130,7 @@ namespace SchoolRegister.Tests.UnitTests {
 
     [Fact]
     public void RemoveStudentFromGroup() {
-      var removeStudentFromGroupVm = new RemoveStudentFromGroupVm {
+      var removeStudentFromGroupVm = new DetachStudentFromGroupVm {
         StudentId = 6, // This Id must have GroupId assigned
         GroupId = 1
       };
@@ -144,7 +144,7 @@ namespace SchoolRegister.Tests.UnitTests {
 
     [Fact]
     public void RemoveNonExistentStudentFromGroupShouldThrowException() {
-      var removeStudentFromGroupVm = new RemoveStudentFromGroupVm {
+      var removeStudentFromGroupVm = new DetachStudentFromGroupVm {
         StudentId = -1,
         GroupId = 1
       };
@@ -159,7 +159,7 @@ namespace SchoolRegister.Tests.UnitTests {
 
     [Fact]
     public void RemoveStudentFromGroupWhenInAWrongGroupShouldThrowException() {
-      var removeStudentFromGroupVm = new RemoveStudentFromGroupVm {
+      var removeStudentFromGroupVm = new DetachStudentFromGroupVm {
         StudentId = 6,
         GroupId = 3
       };

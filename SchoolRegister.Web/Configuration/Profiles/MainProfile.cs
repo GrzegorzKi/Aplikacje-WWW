@@ -34,10 +34,12 @@ namespace SchoolRegister.Web.Configuration.Profiles {
       CreateMap<Student, StudentVm>()
         .ForMember(vm => vm.StudentName,
           expression => expression.MapFrom(student => $"{student.FirstName} {student.LastName}"));
-      CreateMap<StudentVm, AddOrUpdateStudentVm>(); // TODO Zrób poprawne mapowanie danych: FirstName, LastName, GroupId
       // CreateMap<AddOrUpdateStudentVm, StudentVm>();
-      // CreateMap<AddStudentToGroupVm, Student>();
-      // CreateMap<RemoveStudentFromGroupVm, Student>();
+      CreateMap<StudentVm, DetachStudentFromGroupVm>()
+          .ForMember(dest => dest.GroupId,
+              expression => expression.MapFrom(vm => vm.Group != null ? vm.Group.Id : 0))
+          .ForMember(dest => dest.StudentId,
+              expression => expression.MapFrom(vm => vm.Id));
 
       // TeacherService.cs
       CreateMap<Teacher, TeacherVm>()

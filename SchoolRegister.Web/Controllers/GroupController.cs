@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -148,6 +149,9 @@ namespace SchoolRegister.Web.Controllers {
       if (studentVm is null) {
         return new NotFoundResult();
       }
+      if (studentVm.Group is not null) {
+        return new BadRequestResult();
+      }
       ViewBag.SubjectName = studentVm.StudentName;
 
       var groups = _groupService.GetGroups(
@@ -158,15 +162,21 @@ namespace SchoolRegister.Web.Controllers {
           Value = t.Id
       }), "Value", "Text");
 
-      var modelVm = new AddStudentToGroupVm {StudentId = studentId};
+      var modelVm = new AttachStudentToGroupVm {StudentId = studentId};
 
       return View(modelVm);
     }
 
     [HttpPost]
-    public IActionResult AttachStudentToGroup(AddStudentToGroupVm addStudentToGroupVm) {
+    public IActionResult AttachStudentToGroup(AttachStudentToGroupVm attachStudentToGroupVm) {
       if (ModelState.IsValid) {
-        _groupService.AddStudentToGroup(addStudentToGroupVm);
+        try {
+          _groupService.AddStudentToGroup(attachStudentToGroupVm);
+        }
+        catch (InvalidOperationException e) {
+          Logger.LogError(e.Message);
+          return new BadRequestResult();
+        }
         return RedirectToAction("Index");
       }
 
@@ -179,24 +189,21 @@ namespace SchoolRegister.Web.Controllers {
         return new NotFoundResult();
       }
       ViewBag.StudentName = studentVm.StudentName;
+      ViewBag.GroupVm = studentVm.Group;
 
-      var group = _groupService.GetGroup(
-          g => g.Students.Any(s => s.Id == studentVm.Id));
+      Logger.LogInformation("{Id}", studentVm.Id);
+      Logger.LogInformation("{Id}", studentVm.Group.Id);
 
-      ViewBag.Group = group;
-
-      var modelVm = new RemoveStudentFromGroupVm() {
-          StudentId = studentId,
-          GroupId = group.Id
-      };
-
-      return View(modelVm);
+      return View(Mapper.Map<DetachStudentFromGroupVm>(studentVm));
     }
 
     [HttpPost]
-    public IActionResult DetachStudentFromGroup(RemoveStudentFromGroupVm removeStudentFromGroupVm) {
+    public IActionResult DetachStudentFromGroup(DetachStudentFromGroupVm detachStudentFromGroupVm) {
+      Logger.LogInformation("{StudentId}", detachStudentFromGroupVm.StudentId);
+      Logger.LogInformation("{GroupId}", detachStudentFromGroupVm.GroupId);
+
       if (ModelState.IsValid) {
-        _groupService.RemoveStudentFromGroup(removeStudentFromGroupVm);
+        _groupService.RemoveStudentFromGroup(detachStudentFromGroupVm);
         return RedirectToAction("Index");
       }
 

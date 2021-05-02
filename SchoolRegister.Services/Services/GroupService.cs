@@ -93,18 +93,18 @@ namespace SchoolRegister.Services.Services {
       }
     }
 
-    public StudentVm AddStudentToGroup(AddStudentToGroupVm addStudentToGroupVm) {
+    public StudentVm AddStudentToGroup(AttachStudentToGroupVm attachStudentToGroupVm) {
       try {
-        if (addStudentToGroupVm == null) {
-          throw new ArgumentNullException(nameof(addStudentToGroupVm), "View model parameter is null");
+        if (attachStudentToGroupVm == null) {
+          throw new ArgumentNullException(nameof(attachStudentToGroupVm), "View model parameter is null");
         }
 
-        var studentEntity = DbContext.Students.First(s => s.Id == addStudentToGroupVm.StudentId);
+        var studentEntity = DbContext.Students.First(s => s.Id == attachStudentToGroupVm.StudentId);
         if (studentEntity.Group != null) {
           throw new InvalidOperationException("Student is already in a group. Remove group first before assigning new one");
         }
 
-        studentEntity.GroupId = addStudentToGroupVm.GroupId;
+        studentEntity.GroupId = attachStudentToGroupVm.GroupId;
         DbContext.SaveChanges();
 
         return Mapper.Map<StudentVm>(studentEntity);
@@ -115,14 +115,14 @@ namespace SchoolRegister.Services.Services {
       }
     }
 
-    public StudentVm RemoveStudentFromGroup(RemoveStudentFromGroupVm removeStudentFromGroupVm) {
+    public StudentVm RemoveStudentFromGroup(DetachStudentFromGroupVm detachStudentFromGroupVm) {
       try {
-        if (removeStudentFromGroupVm == null)
-          throw new ArgumentNullException(nameof(removeStudentFromGroupVm), "View model parameter is null");
+        if (detachStudentFromGroupVm == null)
+          throw new ArgumentNullException(nameof(detachStudentFromGroupVm), "View model parameter is null");
 
-        var studentEntity = DbContext.Students.First(s => s.Id == removeStudentFromGroupVm.StudentId);
-        if (studentEntity.GroupId != removeStudentFromGroupVm.GroupId) {
-          throw new InvalidOperationException($"Student is not in a group of id {removeStudentFromGroupVm.GroupId}");
+        var studentEntity = DbContext.Students.First(s => s.Id == detachStudentFromGroupVm.StudentId);
+        if (studentEntity.GroupId != detachStudentFromGroupVm.GroupId) {
+          throw new InvalidOperationException($"Student is not in a group of id {detachStudentFromGroupVm.GroupId}");
         }
 
         studentEntity.GroupId = null;

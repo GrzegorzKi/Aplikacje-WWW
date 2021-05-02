@@ -1,4 +1,4 @@
-@model SchoolRegister.ViewModels.VM.RemoveStudentFromGroupVm
+@model SchoolRegister.ViewModels.VM.DetachStudentFromGroupVm
 
 @{
     ViewData["Title"] = $"Detach {ViewBag.StudentName} From Group";
@@ -16,10 +16,10 @@
             @Html.DisplayFor(model => model.StudentId)
         </dd>
         <dt class = "col-sm-2">
-            Group
+            @Html.DisplayNameFor(model => model.GroupId)
         </dt>
         <dd class = "col-sm-10">
-            @((GroupVm)ViewBag.Group).Name
+            @Html.DisplayFor(model => model.GroupId)
         </dd>
     </dl>
     
