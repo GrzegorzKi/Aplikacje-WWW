@@ -24,6 +24,8 @@
     </dl>
     
     <form asp-action="DetachStudentFromGroup">
+        <input asp-for="StudentId" type="hidden" class="form-control" />
+        <input asp-for="GroupId" type="hidden" class="form-control" />
         <input type="submit" value="Detach" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>

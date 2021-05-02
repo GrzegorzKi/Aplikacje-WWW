@@ -34,18 +34,18 @@ namespace SchoolRegister.Web.Controllers {
       _userManager = userManager;
     }
 
-    public IActionResult Index(int? studentId = null) {
+    public IActionResult Index(int? id = null) {
       try {
         var userId = int.Parse(_userManager.GetUserId(User));
-        if (!studentId.HasValue) {
+        if (!id.HasValue) {
           if (User.IsInRole("Student")) {
-            studentId = userId;
+            id = userId;
           } else {
             return new BadRequestResult();
           }
         }
 
-        var studentVm = _studentService.GetStudent(s => s.Id == studentId);
+        var studentVm = _studentService.GetStudent(s => s.Id == id);
         if (studentVm is null) {
           return new NotFoundResult();
         }
@@ -54,7 +54,7 @@ namespace SchoolRegister.Web.Controllers {
         ViewBag.StudentName = studentVm.StudentName;
 
         var getGradesReportVm = new GetGradesReportVm() {
-            StudentId = studentId.Value,
+            StudentId = id.Value,
             GetterUserId = userId
         };
         var gradeVms = _gradeService.GetGradesReportForStudent(getGradesReportVm).Result;
