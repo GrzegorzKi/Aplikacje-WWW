@@ -254,7 +254,7 @@ namespace SchoolRegister.Tests {
         DateOfIssue = new DateTime(2019, 03, 21, 17, 46, 38),
         StudentId = 5,
         SubjectId = 1,
-        GradeValue = GradeScale.DB
+        GradeValue = GradeScale.Db
       };
 
       await dbContext.Grades.AddAsync(grade1);
