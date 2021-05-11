@@ -1,7 +1,12 @@
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResource> SharedLocalizer
+
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Mvc.Rendering
 @model IEnumerable<SchoolRegister.ViewModels.VM.StudentVm>
 
 @{
-    ViewData["Title"] = "Students";
+    ViewData["Title"] = SharedLocalizer["Students"];
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -40,16 +45,16 @@
                 @Html.DisplayFor(modelItem => item.Parent.ParentName)
             </td>
             <td>
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Grades", "Index", "Grade", new { id = item.Id }) |
+                @Html.ActionLink(SharedLocalizer["Details"].Value, "Details", new { id = item.Id }) |
+                @Html.ActionLink(SharedLocalizer["Grades"].Value, "Index", "Grade", new { id = item.Id }) |
                 @(item.Group is null
-                    ? Html.ActionLink("Add Student to Group",
+                    ? Html.ActionLink(Localizer["AttachStudent"].Value,
                     "AttachStudentToGroup",
                     "Group",
                     new {
                         studentId = item.Id
                     })
-                    : Html.ActionLink("Remove Student from Group",
+                    : Html.ActionLink(Localizer["DetachStudent"].Value,
                     "DetachStudentFromGroup",
                     "Group",
                     new {

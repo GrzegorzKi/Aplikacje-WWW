@@ -1,14 +1,17 @@
+@inject IHtmlLocalizer<SharedResource> SharedLocalizer
+
+@using Microsoft.AspNetCore.Mvc.Localization
 @using Microsoft.AspNetCore.Mvc.Rendering
 @model IEnumerable<SchoolRegister.ViewModels.VM.GroupVm>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = SharedLocalizer["Groups"];
 }
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="AddOrEditGroup">Create New</a>
+    <a asp-action="AddOrEditGroup">@SharedLocalizer["Create"]</a>
 </p>
 <table class="table">
     <thead>
@@ -32,9 +35,9 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.ActionLink("Edit", "AddOrEditGroup", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "DeleteGroup", new { id = item.Id })
+                @Html.ActionLink(SharedLocalizer["Edit"].Value, "AddOrEditGroup", new { id = item.Id }) |
+                @Html.ActionLink(SharedLocalizer["Details"].Value, "Details", new { id = item.Id }) |
+                @Html.ActionLink(SharedLocalizer["Delete"].Value, "DeleteGroup", new { id = item.Id })
             </td>
         </tr>
 }

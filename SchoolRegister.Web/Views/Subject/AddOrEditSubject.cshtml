@@ -1,7 +1,11 @@
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResource> SharedLocalizer
+
+@using Microsoft.AspNetCore.Mvc.Localization
 @model SchoolRegister.ViewModels.VM.AddOrUpdateSubjectVm
 
 @{
-    ViewData["Title"] = $"{ViewBag.ActionType} Subject";
+    ViewData["Title"] = $"{ViewBag.ActionType} {Localizer["Subject"]}";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -36,7 +40,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">@SharedLocalizer["Back"]</a>
 </div>
 
 @section Scripts {

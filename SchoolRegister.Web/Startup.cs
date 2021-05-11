@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Globalization;
 using System.Net;
 using System.Net.Mail;
@@ -16,6 +17,7 @@ using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.Services.Services;
+using SchoolRegister.Web.Configuration.Profiles;
 using SchoolRegister.Web.Controllers;
 
 namespace SchoolRegister.Web {
@@ -27,10 +29,10 @@ namespace SchoolRegister.Web {
     public IConfiguration Configuration { get; }
 
     // This method gets called by the runtime. Use this method to add services to the container.
-    public void ConfigureServices(IServiceCollection services) {
-      services.AddAutoMapper(typeof(Startup));
+    public void ConfigureServices (IServiceCollection services) {
+      services.AddAutoMapper(typeof (MainProfile));
       services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+          options.UseSqlServer (Configuration.GetConnectionString ("DefaultConnection"))
       );
       services.AddDatabaseDeveloperPageExceptionFilter();
       services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
@@ -38,8 +40,7 @@ namespace SchoolRegister.Web {
         .AddRoleManager<RoleManager<Role>>()
         .AddUserManager<UserManager<User>>()
         .AddEntityFrameworkStores<ApplicationDbContext>();
-
-      services.AddTransient(typeof(ILogger), typeof(Logger<Startup>));
+      services.AddTransient (typeof (ILogger), typeof (Logger<Startup>));
       services.AddTransient<IStringLocalizer, StringLocalizer<BaseController>>();
       services.AddScoped<ISubjectService, SubjectService>();
       services.AddScoped<IEmailSenderService, EmailSenderService>();
@@ -48,7 +49,7 @@ namespace SchoolRegister.Web {
       services.AddScoped<IStudentService, StudentService>();
       services.AddScoped<ITeacherService, TeacherService>();
       services.AddScoped<IParentService, ParentService>();
-      services.AddScoped(serviceProvider => {
+      services.AddScoped((serviceProvider) => {
         var config = serviceProvider.GetRequiredService<IConfiguration>();
         return new SmtpClient {
           Host = config.GetValue<string>("Email:Smtp:Host"),
@@ -97,6 +98,8 @@ namespace SchoolRegister.Web {
       app.UseAuthorization();
 
       var localizationOption = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+      Debug.Assert(localizationOption != null, nameof(localizationOption) + " != null");
+      app.UseRequestLocalization(localizationOption.Value);
 
       app.UseEndpoints(endpoints => {
         endpoints.MapControllerRoute(

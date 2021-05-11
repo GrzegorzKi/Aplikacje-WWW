@@ -1,10 +1,13 @@
+@inject IHtmlLocalizer<SharedResource> SharedLocalizer
+
+@using Microsoft.AspNetCore.Mvc.Localization
 @model SchoolRegister.ViewModels.VM.CreateEmailVm
 
 @{
-    ViewData["Title"] = "Send Email";
+    ViewData["Title"] = SharedLocalizer["SendEmail"];
 }
 
-<h1>Send Email</h1>
+<h1>ViewData["Title"]</h1>
 
 <div class="row">
     <div class="col-md-4">
@@ -33,10 +36,6 @@
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

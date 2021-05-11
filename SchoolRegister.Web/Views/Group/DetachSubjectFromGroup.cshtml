@@ -1,10 +1,14 @@
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResource> SharedLocalizer
+
+@using Microsoft.AspNetCore.Mvc.Localization
 @model SchoolRegister.ViewModels.VM.DetachSubjectFromGroupVm
 
 @{
-    ViewData["Title"] = $"Detach {ViewBag.SubjectName} From Group";
+    ViewData["Title"] = string.Format(Localizer["DetachFromGroup"].Value, ViewBag.SubjectName);
 }
 
-<h1>Detach @ViewBag.SubjectName From Group</h1>
+<h1>@ViewData["Title"]</h1>
 
 <div class="row">
     <div class="col-md-4">
@@ -19,14 +23,14 @@
                 <span asp-validation-for="GroupId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Detach" class="btn btn-primary" />
+                <input type="submit" value="@SharedLocalizer["Detach"]" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">@SharedLocalizer["Back"]</a>
 </div>
 
 @section Scripts {

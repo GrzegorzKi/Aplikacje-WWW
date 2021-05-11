@@ -5,9 +5,9 @@ using Microsoft.Extensions.Logging;
 
 namespace SchoolRegister.Web.Controllers {
   public abstract class BaseController : Controller {
-    protected readonly IStringLocalizer Localizer;
     protected readonly ILogger Logger;
     protected readonly IMapper Mapper;
+    protected readonly IStringLocalizer Localizer;
 
     protected BaseController(ILogger logger, IMapper mapper, IStringLocalizer localizer) {
       Logger = logger;

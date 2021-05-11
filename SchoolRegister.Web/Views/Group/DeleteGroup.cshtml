@@ -1,12 +1,16 @@
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResource> SharedLocalizer
+
+@using Microsoft.AspNetCore.Mvc.Localization
 @model SchoolRegister.ViewModels.VM.DeleteGroupVm
 
 @{
-    ViewData["Title"] = $"Delete {ViewBag.GroupName} Group";
+    ViewData["Title"] = string.Format(Localizer["DeleteGroup"].Value, ViewBag.GroupName);
 }
 
 <h1>@ViewData["Title"]</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>@Localizer["DeleteGroupConfirmationText"]</h3>
 <div>
     <dl class="row">
         <dt class = "col-sm-2">
@@ -24,7 +28,7 @@
     </dl>
     
     <form asp-action="DeleteGroup">
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="@SharedLocalizer["Delete"]" class="btn btn-danger" /> |
+        <a asp-action="Index">@SharedLocalizer["Back"]</a>
     </form>
 </div>

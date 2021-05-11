@@ -1,7 +1,10 @@
+@inject IHtmlLocalizer<SharedResource> SharedLocalizer
+
+@using Microsoft.AspNetCore.Mvc.Localization
 @model SchoolRegister.ViewModels.VM.StudentVm
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = SharedLocalizer["Details"];
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -41,5 +44,5 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">@SharedLocalizer["Back"]</a>
 </div>
