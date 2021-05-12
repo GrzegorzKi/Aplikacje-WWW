@@ -1,7 +1,5 @@
 @inject IHtmlLocalizer<SharedResource> SharedLocalizer
-
 @using Microsoft.AspNetCore.Mvc.Localization
-@using Microsoft.AspNetCore.Mvc.Rendering
 @model IEnumerable<SchoolRegister.ViewModels.VM.GroupVm>
 
 @{
@@ -11,7 +9,7 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="AddOrEditGroup">@SharedLocalizer["Create"]</a>
+    <a asp-action="AddOrEditGroup">@SharedLocalizer["Create New"]</a>
 </p>
 <table class="table">
     <thead>

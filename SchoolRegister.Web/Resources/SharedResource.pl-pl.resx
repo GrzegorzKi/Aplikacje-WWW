@@ -22,13 +22,13 @@
     <data name="Add" xml:space="preserve">
         <value>Dodaj</value>
     </data>
-    <data name="Back" xml:space="preserve">
+    <data name="Back to list" xml:space="preserve">
         <value>Wróć do listy</value>
     </data>
     <data name="Subjects" xml:space="preserve">
         <value>Przedmioty</value>
     </data>
-    <data name="Create" xml:space="preserve">
+    <data name="Create New" xml:space="preserve">
         <value>Utwórz nowy</value>
     </data>
     <data name="Groups" xml:space="preserve">
@@ -40,16 +40,16 @@
     <data name="Grades" xml:space="preserve">
         <value>Oceny</value>
     </data>
-    <data name="SendEmail" xml:space="preserve">
+    <data name="Send Email" xml:space="preserve">
         <value>Wyślij Emaila</value>
     </data>
     <data name="Details" xml:space="preserve">
         <value>Szczegóły</value>
     </data>
-    <data name="SubmitCreate" xml:space="preserve">
+    <data name="Create" xml:space="preserve">
         <value>Utwórz</value>
     </data>
-    <data name="SelectPrompt" xml:space="preserve">
+    <data name="Select..." xml:space="preserve">
         <value>Wybierz...</value>
     </data>
     <data name="Delete" xml:space="preserve">

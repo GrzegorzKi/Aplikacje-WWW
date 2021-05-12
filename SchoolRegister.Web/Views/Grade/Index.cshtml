@@ -1,18 +1,16 @@
 @inject IViewLocalizer Localizer
 @inject IHtmlLocalizer<SharedResource> SharedLocalizer
-
 @using Microsoft.AspNetCore.Mvc.Localization
-@using Microsoft.AspNetCore.Mvc.Rendering
 @model IEnumerable<SchoolRegister.ViewModels.VM.GradeVm>
 
 @{
-    ViewData["Title"] = $"{Localizer["GradesOf"]} {ViewBag.StudentName}";
+    ViewData["Title"] = $"{Localizer["Grades of Student"]} {ViewBag.StudentName}";
 }
 
 <h1>@ViewData["Title"]</h1>
 
 <p>
-    @Html.ActionLink(Localizer["AddGrade"].Value, "AddGradeToStudent", new { id = (int)ViewBag.StudentId })
+    @Html.ActionLink(Localizer["Add Grade"].Value, "AddGradeToStudent", new { id = (int)ViewBag.StudentId })
 </p>
 <table class="table">
     <thead>

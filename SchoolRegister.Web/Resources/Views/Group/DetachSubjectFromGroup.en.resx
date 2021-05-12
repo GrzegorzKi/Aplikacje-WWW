@@ -18,7 +18,7 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
-    <data name="DetachFromGroup" xml:space="preserve">
-        <value>Detach {0} from group</value>
+    <data name="Detach {0} from Group" xml:space="preserve">
+        <value>Detach {0} from Group</value>
     </data>
 </root>

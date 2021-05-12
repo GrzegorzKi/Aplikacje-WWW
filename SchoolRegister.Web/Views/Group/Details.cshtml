@@ -1,5 +1,4 @@
 @inject IHtmlLocalizer<SharedResource> SharedLocalizer
-
 @using Microsoft.AspNetCore.Mvc.Localization
 @model SchoolRegister.ViewModels.VM.GroupVm
 
@@ -27,5 +26,5 @@
 </div>
 <div>
     @Html.ActionLink(SharedLocalizer["Edit"].Value, "AddOrEditGroup", new { id = Model.Id }) |
-    <a asp-action="Index">@SharedLocalizer["Back"]</a>
+    <a asp-action="Index">@SharedLocalizer["Back to list"]</a>
 </div>

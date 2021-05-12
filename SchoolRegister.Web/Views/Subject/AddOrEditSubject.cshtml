@@ -1,6 +1,5 @@
 @inject IViewLocalizer Localizer
 @inject IHtmlLocalizer<SharedResource> SharedLocalizer
-
 @using Microsoft.AspNetCore.Mvc.Localization
 @model SchoolRegister.ViewModels.VM.AddOrUpdateSubjectVm
 
@@ -40,7 +39,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">@SharedLocalizer["Back"]</a>
+    <a asp-action="Index">@SharedLocalizer["Back to list"]</a>
 </div>
 
 @section Scripts {

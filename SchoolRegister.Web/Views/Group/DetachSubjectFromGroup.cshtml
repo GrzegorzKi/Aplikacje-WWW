@@ -1,11 +1,10 @@
 @inject IViewLocalizer Localizer
 @inject IHtmlLocalizer<SharedResource> SharedLocalizer
-
 @using Microsoft.AspNetCore.Mvc.Localization
 @model SchoolRegister.ViewModels.VM.DetachSubjectFromGroupVm
 
 @{
-    ViewData["Title"] = string.Format(Localizer["DetachFromGroup"].Value, ViewBag.SubjectName);
+    ViewData["Title"] = string.Format(Localizer["Detach {0} from Group"].Value, ViewBag.SubjectName);
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -30,7 +29,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">@SharedLocalizer["Back"]</a>
+    <a asp-action="Index">@SharedLocalizer["Back to list"]</a>
 </div>
 
 @section Scripts {

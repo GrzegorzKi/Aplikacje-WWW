@@ -24,13 +24,13 @@
     <data name="Edit" xml:space="preserve">
         <value>Edit</value>
     </data>
-    <data name="Back" xml:space="preserve">
+    <data name="Back to list" xml:space="preserve">
         <value>Back to list</value>
     </data>
     <data name="Subjects" xml:space="preserve">
         <value>Subjects</value>
     </data>
-    <data name="Create" xml:space="preserve">
+    <data name="Create New" xml:space="preserve">
         <value>Create New</value>
     </data>
     <data name="Groups" xml:space="preserve">
@@ -42,16 +42,16 @@
     <data name="Grades" xml:space="preserve">
         <value>Grades</value>
     </data>
-    <data name="SendEmail" xml:space="preserve">
+    <data name="Send Email" xml:space="preserve">
         <value>Send Email</value>
     </data>
     <data name="Details" xml:space="preserve">
         <value>Details</value>
     </data>
-    <data name="SubmitCreate" xml:space="preserve">
+    <data name="Create" xml:space="preserve">
         <value>Create</value>
     </data>
-    <data name="SelectPrompt" xml:space="preserve">
+    <data name="Select..." xml:space="preserve">
         <value>Select...</value>
     </data>
     <data name="Delete" xml:space="preserve">

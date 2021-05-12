@@ -1,8 +1,6 @@
 @inject IViewLocalizer Localizer
 @inject IHtmlLocalizer<SharedResource> SharedLocalizer
-
 @using Microsoft.AspNetCore.Mvc.Localization
-@using Microsoft.AspNetCore.Mvc.Rendering
 @model IEnumerable<SubjectVm>
 @{
     ViewData["Title"] = SharedLocalizer["Subjects"];
@@ -11,7 +9,7 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="AddOrEditSubject">@SharedLocalizer["Create"]</a>
+    <a asp-action="AddOrEditSubject">@SharedLocalizer["Create New"]</a>
 </p>
 <table class="table">
     <thead>
@@ -26,7 +24,7 @@
             @HtmlHelperDisplayNameExtensions.DisplayNameFor(Html, model => model.TeacherName)
         </th>
         <th>
-            <label>@Localizer["GroupsCount"]</label>
+            <label>@Localizer["Groups Count"]</label>
         </th>
         <th></th>
     </tr>
@@ -57,13 +55,13 @@
                     new {
                         id = item.Id
                     }) |
-                @Html.ActionLink(Localizer["AttachSubject"].Value,
+                @Html.ActionLink(Localizer["Attach Subject to Group"].Value,
                     "AttachSubjectToGroup",
                     "Group",
                     new {
                         subjectId = item.Id
                     }) |
-                @Html.ActionLink(Localizer["DetachSubject"].Value,
+                @Html.ActionLink(Localizer["Detach Subject from Group"].Value,
                     "DetachSubjectFromGroup",
                     "Group",
                     new {

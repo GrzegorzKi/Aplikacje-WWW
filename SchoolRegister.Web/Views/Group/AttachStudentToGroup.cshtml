@@ -1,11 +1,10 @@
 @inject IViewLocalizer Localizer
 @inject IHtmlLocalizer<SharedResource> SharedLocalizer
-
 @using Microsoft.AspNetCore.Mvc.Localization
 @model SchoolRegister.ViewModels.VM.AttachStudentToGroupVm
 
 @{
-    ViewData["Title"] = ViewData["Title"] = string.Format(Localizer["AttachToGroup"].Value, ViewBag.StudentName);
+    ViewData["Title"] = ViewData["Title"] = string.Format(Localizer["Attach {0} to Group"].Value, ViewBag.StudentName);
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -30,7 +29,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">@SharedLocalizer["Back"]</a>
+    <a asp-action="Index">@SharedLocalizer["Back to list"]</a>
 </div>
 
 @section Scripts {
