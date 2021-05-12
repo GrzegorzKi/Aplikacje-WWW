@@ -5,7 +5,7 @@
 @model SchoolRegister.ViewModels.VM.AddGradeToStudentVm
 
 @{
-    ViewData["Title"] = $"{Localizer["Add Grade to Student"]} {ViewBag.StudentName}";
+    ViewData["Title"] = $"{Localizer["Add Grade to Student"].Value} {ViewBag.StudentName}";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -27,7 +27,7 @@
                 <span asp-validation-for="GradeValue" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label class="control-label">Subject</label>
+                <label asp-for="SubjectId" class="control-label"></label>
                 <select asp-for="SubjectId" class="form-control" asp-items="@ViewBag.SubjectsSelectList"></select>
                 <span asp-validation-for="SubjectId" class="text-danger"></span>
             </div>

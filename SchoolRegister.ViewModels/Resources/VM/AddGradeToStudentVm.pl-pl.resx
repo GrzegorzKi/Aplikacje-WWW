@@ -18,13 +18,19 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
-    <data name="Delete Group {0}" xml:space="preserve">
-        <value>Delete Group {0} </value>
+    <data name="Date of issue" xml:space="preserve">
+        <value>Data wystawienia</value>
     </data>
-    <data name="Are you sure you want to delete group?" xml:space="preserve">
-        <value>Are you sure you want to delete group?</value>
+    <data name="Grade" xml:space="preserve">
+        <value>Ocena</value>
     </data>
-    <data name="Name" xml:space="preserve">
-        <value>Name</value>
+    <data name="Subject" xml:space="preserve">
+        <value>Przedmiot</value>
+    </data>
+    <data name="Student" xml:space="preserve">
+        <value>Student</value>
+    </data>
+    <data name="Teacher" xml:space="preserve">
+        <value>Nauczyciel</value>
     </data>
 </root>

@@ -152,7 +152,7 @@ namespace SchoolRegister.Web.Controllers {
       if (studentVm.Group is not null) {
         return new BadRequestResult();
       }
-      ViewBag.SubjectName = studentVm.StudentName;
+      ViewBag.StudentName = studentVm.StudentName;
 
       var groups = _groupService.GetGroups(
           g => g.Students.All(s => s.Id != studentVm.Id));

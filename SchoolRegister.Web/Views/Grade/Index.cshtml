@@ -4,7 +4,7 @@
 @model IEnumerable<SchoolRegister.ViewModels.VM.GradeVm>
 
 @{
-    ViewData["Title"] = $"{Localizer["Grades of Student"]} {ViewBag.StudentName}";
+    ViewData["Title"] = $"{Localizer["Grades of Student"].Value} {ViewBag.StudentName}";
 }
 
 <h1>@ViewData["Title"]</h1>

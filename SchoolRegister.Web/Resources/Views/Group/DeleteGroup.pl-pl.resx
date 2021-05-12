@@ -24,4 +24,7 @@
     <data name="Are you sure you want to delete group?" xml:space="preserve">
         <value>Czy na pewno chcesz usunąć grupę?</value>
     </data>
+    <data name="Name" xml:space="preserve">
+        <value>Nazwa</value>
+    </data>
 </root>

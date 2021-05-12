@@ -3,7 +3,7 @@
 <root>
     <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
         <xsd:element name="root" msdata:IsDataSet="true">
-            
+
         </xsd:element>
     </xsd:schema>
     <resheader name="resmimetype">
@@ -18,13 +18,7 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
-    <data name="Delete Group {0}" xml:space="preserve">
-        <value>Delete Group {0} </value>
-    </data>
-    <data name="Are you sure you want to delete group?" xml:space="preserve">
-        <value>Are you sure you want to delete group?</value>
-    </data>
-    <data name="Name" xml:space="preserve">
-        <value>Name</value>
+    <data name="Group" xml:space="preserve">
+        <value>Grupa</value>
     </data>
 </root>

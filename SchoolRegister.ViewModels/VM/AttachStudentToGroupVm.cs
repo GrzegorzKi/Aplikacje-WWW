@@ -6,6 +6,7 @@ namespace SchoolRegister.ViewModels.VM {
     public int StudentId { get; set; }
 
     [Required]
+    [Display(Name = "Group")]
     public int GroupId { get; set; }
   }
 }
