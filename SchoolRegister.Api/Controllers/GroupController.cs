@@ -8,12 +8,12 @@ using SchoolRegister.ViewModels.VM;
 
 namespace SchoolRegister.Api.Controllers {
   [Authorize(Roles = "Admin")]
-  public class GroupApiController : BaseApiController {
+  public class GroupController : BaseApiController {
     private readonly IGroupService _groupService;
 
     private static readonly string ERROR_MESSAGE = "An error occurred";
 
-    public GroupApiController(ILogger logger,
+    public GroupController(ILogger logger,
         IMapper mapper,
         IGroupService groupService) : base(logger, mapper) {
       _groupService = groupService;

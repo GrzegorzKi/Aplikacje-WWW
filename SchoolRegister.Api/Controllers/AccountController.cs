@@ -16,12 +16,12 @@ using SchoolRegister.Model.DataModels;
 using SchoolRegister.ViewModels.VM;
 
 namespace SchoolRegister.Api.Controllers {
-  public class AccountApiController : BaseApiController {
+  public class AccountController : BaseApiController {
     private readonly SignInManager<User> _signInManager;
     private readonly UserManager<User> _userManager;
     private readonly JwtOptionsVm _jwtOptions;
 
-    public AccountApiController(ILogger logger,
+    public AccountController(ILogger logger,
         IMapper mapper,
         IOptions<JwtOptionsVm> jwtOptions,
         SignInManager<User> signInManager,

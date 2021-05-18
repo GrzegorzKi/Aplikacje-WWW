@@ -11,14 +11,14 @@ using SchoolRegister.ViewModels.VM;
 
 namespace SchoolRegister.Api.Controllers {
   [Authorize(Roles = "Student, Parent, Teacher")]
-  public class GradeApiController : BaseApiController {
+  public class GradeController : BaseApiController {
     private readonly IGradeService _gradeService;
     private readonly IStudentService _studentService;
     private readonly UserManager<User> _userManager;
 
     private static readonly string ERROR_MESSAGE = "An error occurred";
 
-    public GradeApiController(ILogger logger,
+    public GradeController(ILogger logger,
         IMapper mapper,
         IGradeService gradeService,
         IStudentService studentService,

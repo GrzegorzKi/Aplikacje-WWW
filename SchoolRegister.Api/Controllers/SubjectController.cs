@@ -12,13 +12,13 @@ using SchoolRegister.ViewModels.VM;
 namespace SchoolRegister.Api.Controllers {
 
   [Authorize(Roles = "Teacher, Admin")]
-  public class SubjectApiController : BaseApiController {
+  public class SubjectController : BaseApiController {
     private readonly ISubjectService _subjectService;
     private readonly UserManager<User> _userManager;
 
     private static readonly string ERROR_MESSAGE = "An error occurred";
 
-    public SubjectApiController(ILogger logger,
+    public SubjectController(ILogger logger,
         IMapper mapper,
         ISubjectService subjectService,
         UserManager<User> userManager) : base(logger, mapper) {

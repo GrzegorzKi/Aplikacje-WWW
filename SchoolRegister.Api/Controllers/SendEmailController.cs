@@ -9,13 +9,13 @@ using SchoolRegister.ViewModels.VM;
 
 namespace SchoolRegister.Api.Controllers {
   [Authorize(Roles = "Teacher")]
-  public class SendEmailApiController : BaseApiController {
+  public class SendEmailController : BaseApiController {
 
     private readonly IEmailSenderService _emailSenderService;
 
     private static readonly string ERROR_MESSAGE = "An error occurred";
 
-    public SendEmailApiController(ILogger logger,
+    public SendEmailController(ILogger logger,
         IMapper mapper,
         IEmailSenderService emailSenderService) : base(logger, mapper) {
       _emailSenderService = emailSenderService;
