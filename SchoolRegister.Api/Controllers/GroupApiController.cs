@@ -19,6 +19,7 @@ namespace SchoolRegister.Api.Controllers {
       _groupService = groupService;
     }
 
+    [HttpGet]
     public IActionResult Get() {
       return Ok(_groupService.GetGroups());
     }
@@ -87,10 +88,76 @@ namespace SchoolRegister.Api.Controllers {
       }
     }
 
-    // TODO Add support for (maybe new Apis?):
-    // * AttachSubjectToGroup
-    // * DetachSubjectFromGroup
-    // * AttachStudentToGroup
-    // * DetachStudentFromGroup
+    [HttpPost("AttachToSubject")]
+    [Authorize(Roles = "Admin")]
+    public IActionResult Post([FromBody] AttachSubjectToGroupVm attachSubjectToGroupVm) {
+      try {
+        if (ModelState == null || !ModelState.IsValid) {
+          return BadRequest(ModelState);
+        }
+        var studentVm = _groupService.AttachSubjectToGroup(attachSubjectToGroupVm);
+        return Ok(studentVm);
+      }
+      catch (ArgumentNullException) {
+        return NotFound();
+      }
+      catch (Exception) {
+        return BadRequest(ERROR_MESSAGE);
+      }
+    }
+
+    [HttpDelete("DetachFromSubject")]
+    [Authorize(Roles = "Admin")]
+    public IActionResult Post([FromBody] DetachSubjectFromGroupVm detachSubjectFromGroupVm) {
+      try {
+        if (ModelState == null || !ModelState.IsValid) {
+          return BadRequest(ModelState);
+        }
+        var studentVm = _groupService.DetachSubjectFromGroup(detachSubjectFromGroupVm);
+        return Ok(studentVm);
+      }
+      catch (ArgumentNullException) {
+        return NotFound();
+      }
+      catch (Exception) {
+        return BadRequest(ERROR_MESSAGE);
+      }
+    }
+
+    [HttpPost("AttachToStudent")]
+    [Authorize(Roles = "Admin")]
+    public IActionResult Post([FromBody] AttachStudentToGroupVm attachStudentToGroupVm) {
+      try {
+        if (ModelState == null || !ModelState.IsValid) {
+          return BadRequest(ModelState);
+        }
+        var studentVm = _groupService.AddStudentToGroup(attachStudentToGroupVm);
+        return Ok(studentVm);
+      }
+      catch (ArgumentNullException) {
+        return NotFound();
+      }
+      catch (Exception) {
+        return BadRequest(ERROR_MESSAGE);
+      }
+    }
+
+    [HttpDelete("DetachFromStudent")]
+    [Authorize(Roles = "Admin")]
+    public IActionResult Post([FromBody] DetachStudentFromGroupVm detachStudentFromGroupVm) {
+      try {
+        if (ModelState == null || !ModelState.IsValid) {
+          return BadRequest(ModelState);
+        }
+        var studentVm = _groupService.RemoveStudentFromGroup(detachStudentFromGroupVm);
+        return Ok(studentVm);
+      }
+      catch (ArgumentNullException) {
+        return NotFound();
+      }
+      catch (Exception) {
+        return BadRequest(ERROR_MESSAGE);
+      }
+    }
   }
 }

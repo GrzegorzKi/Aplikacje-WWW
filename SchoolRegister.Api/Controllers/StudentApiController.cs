@@ -25,6 +25,7 @@ namespace SchoolRegister.Api.Controllers {
       _userManager = userManager;
     }
 
+    [HttpGet]
     public async Task<IActionResult> Get() {
       var user = await _userManager.FindByNameAsync(User?.Identity?.Name);
       if (await _userManager.IsInRoleAsync(user, "Admin")

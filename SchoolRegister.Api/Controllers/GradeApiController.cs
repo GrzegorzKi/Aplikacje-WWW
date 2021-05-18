@@ -28,6 +28,7 @@ namespace SchoolRegister.Api.Controllers {
       _userManager = userManager;
     }
 
+    [HttpGet]
     public async Task<IActionResult> Get() {
       try {
         var user = await _userManager.FindByNameAsync(User?.Identity?.Name);
