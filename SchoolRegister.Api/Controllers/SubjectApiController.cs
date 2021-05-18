@@ -14,8 +14,6 @@ namespace SchoolRegister.Api.Controllers {
   [Authorize(Roles = "Teacher, Admin")]
   public class SubjectApiController : BaseApiController {
     private readonly ISubjectService _subjectService;
-    private readonly ITeacherService _teacherService;
-    private readonly IGradeService _gradeService;
     private readonly UserManager<User> _userManager;
 
     private static readonly string ERROR_MESSAGE = "An error occurred";
@@ -23,12 +21,8 @@ namespace SchoolRegister.Api.Controllers {
     public SubjectApiController(ILogger logger,
         IMapper mapper,
         ISubjectService subjectService,
-        ITeacherService teacherService,
-        IGradeService gradeService,
         UserManager<User> userManager) : base(logger, mapper) {
       _subjectService = subjectService;
-      _teacherService = teacherService;
-      _gradeService = gradeService;
       _userManager = userManager;
     }
 

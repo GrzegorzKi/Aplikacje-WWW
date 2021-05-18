@@ -10,19 +10,13 @@ namespace SchoolRegister.Api.Controllers {
   [Authorize(Roles = "Admin")]
   public class GroupApiController : BaseApiController {
     private readonly IGroupService _groupService;
-    private readonly ISubjectService _subjectService;
-    private readonly IStudentService _studentService;
 
     private static readonly string ERROR_MESSAGE = "An error occurred";
 
     public GroupApiController(ILogger logger,
         IMapper mapper,
-        IGroupService groupService,
-        ISubjectService subjectService,
-        IStudentService studentService) : base(logger, mapper) {
+        IGroupService groupService) : base(logger, mapper) {
       _groupService = groupService;
-      _subjectService = subjectService;
-      _studentService = studentService;
     }
 
     public IActionResult Get() {

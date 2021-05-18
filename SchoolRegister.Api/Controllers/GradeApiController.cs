@@ -13,7 +13,6 @@ namespace SchoolRegister.Api.Controllers {
   [Authorize(Roles = "Student, Parent, Teacher")]
   public class GradeApiController : BaseApiController {
     private readonly IGradeService _gradeService;
-    private readonly ISubjectService _subjectService;
     private readonly IStudentService _studentService;
     private readonly UserManager<User> _userManager;
 
@@ -22,11 +21,9 @@ namespace SchoolRegister.Api.Controllers {
     public GradeApiController(ILogger logger,
         IMapper mapper,
         IGradeService gradeService,
-        ISubjectService subjectService,
         IStudentService studentService,
         UserManager<User> userManager) : base(logger, mapper) {
       _gradeService = gradeService;
-      _subjectService = subjectService;
       _studentService = studentService;
       _userManager = userManager;
     }

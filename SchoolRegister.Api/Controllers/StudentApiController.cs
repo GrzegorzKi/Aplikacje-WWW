@@ -12,7 +12,6 @@ using SchoolRegister.ViewModels.VM;
 namespace SchoolRegister.Api.Controllers {
   [Authorize(Roles = "Admin, Parent, Teacher")]
   public class StudentApiController : BaseApiController {
-    private readonly IParentService _parentService;
     private readonly IStudentService _studentService;
     private readonly UserManager<User> _userManager;
 
@@ -20,10 +19,8 @@ namespace SchoolRegister.Api.Controllers {
 
     public StudentApiController(ILogger logger,
         IMapper mapper,
-        IParentService parentService,
         IStudentService studentService,
         UserManager<User> userManager) : base(logger, mapper) {
-      _parentService = parentService;
       _studentService = studentService;
       _userManager = userManager;
     }
