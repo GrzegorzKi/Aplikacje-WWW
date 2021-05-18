@@ -11,7 +11,7 @@ using SchoolRegister.ViewModels.VM;
 
 namespace SchoolRegister.Api.Controllers {
 
-  [Authorize(Roles = "Teacher, Admin, Student, Parent")]
+  [Authorize(Roles = "Teacher, Admin")]
   public class SubjectApiController : BaseApiController {
     private readonly ISubjectService _subjectService;
     private readonly ITeacherService _teacherService;
@@ -52,15 +52,16 @@ namespace SchoolRegister.Api.Controllers {
       try {
         var user = await _userManager.FindByNameAsync(User?.Identity?.Name);
         if (await _userManager.IsInRoleAsync(user, "Admin")) {
-          return Ok(_subjectService.GetSubjects(s => s.Id == id));
+          return Ok(_subjectService.GetSubject(s => s.Id == id));
         } else if (await _userManager.IsInRoleAsync(user, "Teacher")) {
           if (user is Teacher teacher) {
-            return Ok(_subjectService.GetSubjects(x => x.TeacherId == teacher.Id && x.Id == id));
+            return Ok(_subjectService.GetSubject(x => x.TeacherId == teacher.Id && x.Id == id));
           } else {
             return BadRequest("Teacher is assigned to role, but to the Teacher type.");
           }
-        } else
+        } else {
           return BadRequest("Error occurred");
+        }
       }
       catch (ArgumentNullException) {
         return NotFound();
