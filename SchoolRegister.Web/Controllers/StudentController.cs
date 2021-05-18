@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,37 +12,37 @@ namespace SchoolRegister.Web.Controllers {
   [Authorize(Roles = "Admin, Parent, Teacher")]
   [AutoValidateAntiforgeryToken]
   public class StudentController : BaseController {
-    private readonly IParentService _parentService;
     private readonly IStudentService _studentService;
     private readonly UserManager<User> _userManager;
 
     public StudentController(
-        IParentService parentService,
         IStudentService studentService,
         UserManager<User> userManager,
         ILogger logger,
         IMapper mapper,
         IStringLocalizer localizer) : base(logger, mapper, localizer) {
-      _parentService = parentService;
       _studentService = studentService;
       _userManager = userManager;
     }
 
-    public IActionResult Index() {
-      if (User.IsInRole("Teacher") || User.IsInRole("Admin")) {
+    public async Task<IActionResult> Index() {
+      var user = await _userManager.FindByNameAsync(User?.Identity?.Name);
+      if (await _userManager.IsInRoleAsync(user, "Admin")
+          || await _userManager.IsInRoleAsync(user, "Teacher")) {
         return View(_studentService.GetStudents());
-      }
-
-      if (User.IsInRole("Parent")) {
-        var parentId = int.Parse(_userManager.GetUserId(User));
-        return View(_studentService.GetStudents(student => student.ParentId == parentId));
+      } else if (await _userManager.IsInRoleAsync(user, "Parent")) {
+        if (user is Parent parent) {
+          return View(_studentService.GetStudents(s => s.ParentId == parent.Id));
+        } else {
+          return BadRequest("Parent role is assigned to user, but user is not of Parent type");
+        }
       }
 
       return View("Error");
     }
 
     public IActionResult Details(int id) {
-      var studentVm = _studentService.GetStudent(x => x.Id == id);
+      var studentVm = _studentService.GetStudent(s => s.Id == id);
       if (studentVm is null) {
         return new NotFoundResult();
       }

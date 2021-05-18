@@ -37,7 +37,7 @@ namespace SchoolRegister.Web.Controllers {
         return View(_subjectService.GetSubjects());
       } else if (await _userManager.IsInRoleAsync(user, "Teacher")) {
         if (user is Teacher teacher) {
-          return View(_subjectService.GetSubjects(x => x.TeacherId == teacher.Id));
+          return View(_subjectService.GetSubjects(s => s.TeacherId == teacher.Id));
         } else {
           return BadRequest("Teacher role is assigned to user, but user is not of Teacher type");
         }
@@ -53,7 +53,7 @@ namespace SchoolRegister.Web.Controllers {
         subjectVm = _subjectService.GetSubject(s => s.Id == id);
       } else if (await _userManager.IsInRoleAsync(user, "Teacher")) {
         if (user is Teacher teacher) {
-          subjectVm = _subjectService.GetSubject(x => x.TeacherId == teacher.Id && x.Id == id);
+          subjectVm = _subjectService.GetSubject(s => s.TeacherId == teacher.Id && s.Id == id);
         } else {
           return BadRequest("Teacher is assigned to role, but to the Teacher type.");
         }
@@ -74,7 +74,7 @@ namespace SchoolRegister.Web.Controllers {
       }), "Value", "Text");
 
       if (id.HasValue) {
-        var subjectVm = _subjectService.GetSubject(x => x.Id == id);
+        var subjectVm = _subjectService.GetSubject(s => s.Id == id);
         if (subjectVm is null) {
           return new NotFoundResult();
         }

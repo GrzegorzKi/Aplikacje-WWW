@@ -38,7 +38,7 @@ namespace SchoolRegister.Api.Controllers {
         return Ok(_subjectService.GetSubjects());
       } else if (await _userManager.IsInRoleAsync(user, "Teacher")) {
         if (user is Teacher teacher) {
-          return Ok(_subjectService.GetSubjects(x => x.TeacherId == teacher.Id));
+          return Ok(_subjectService.GetSubjects(s => s.TeacherId == teacher.Id));
         } else {
           return BadRequest("Teacher role is assigned to user, but user is not of Teacher type");
         }
@@ -55,7 +55,7 @@ namespace SchoolRegister.Api.Controllers {
           return Ok(_subjectService.GetSubject(s => s.Id == id));
         } else if (await _userManager.IsInRoleAsync(user, "Teacher")) {
           if (user is Teacher teacher) {
-            return Ok(_subjectService.GetSubject(x => x.TeacherId == teacher.Id && x.Id == id));
+            return Ok(_subjectService.GetSubject(s => s.TeacherId == teacher.Id && s.Id == id));
           } else {
             return BadRequest("Teacher is assigned to role, but to the Teacher type.");
           }
