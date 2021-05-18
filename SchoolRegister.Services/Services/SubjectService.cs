@@ -70,7 +70,21 @@ namespace SchoolRegister.Services.Services {
     }
 
     public bool RemoveSubject(Expression<Func<Subject, bool>> filterExpression) {
-      throw new NotImplementedException();
+      try {
+        if (filterExpression == null) {
+          throw new ArgumentNullException(nameof(filterExpression), "FilterExpression is null");
+        }
+
+        var subjectEntity = DbContext.Subjects.First(filterExpression);
+
+        DbContext.Subjects.Remove(subjectEntity);
+        var changedEntities = DbContext.SaveChanges();
+        return changedEntities > 0;
+      }
+      catch (Exception ex) {
+        Logger.LogError(ex, ex.Message);
+        throw;
+      }
     }
   }
 }
