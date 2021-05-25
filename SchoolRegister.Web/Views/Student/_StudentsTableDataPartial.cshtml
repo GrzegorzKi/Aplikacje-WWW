@@ -1,0 +1,38 @@
+﻿@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResource> SharedLocalizer
+@using Microsoft.AspNetCore.Mvc.Localization
+@model IEnumerable<StudentVm>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.StudentName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AverageGrade)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Group.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Parent.ParentName)
+        </td>
+        <td>
+            @Html.ActionLink(SharedLocalizer["Details"].Value, "Details", new { id = item.Id }) |
+            @Html.ActionLink(SharedLocalizer["Grades"].Value, "Index", "Grade", new { id = item.Id }) |
+            @(item.Group is null
+                ? Html.ActionLink(Localizer["Add Student to Group"].Value,
+                "AttachStudentToGroup",
+                "Group",
+                new {
+                    studentId = item.Id
+                })
+                : Html.ActionLink(Localizer["Detach Student from Group"].Value,
+                "DetachStudentFromGroup",
+                "Group",
+                new {
+                    studentId = item.Id
+                }))
+        </td>
+    </tr>
+}

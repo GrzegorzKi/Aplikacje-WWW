@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -31,19 +34,36 @@ namespace SchoolRegister.Web.Controllers {
       _userManager = userManager;
     }
 
-    public async Task<IActionResult> Index() {
-      var user = await _userManager.FindByNameAsync(User?.Identity?.Name);
+    public async Task<IActionResult> Index(string filterValue = null) {
+      IEnumerable<SubjectVm> subjectVms;
+      var filterExpression = GetFilterExpression(filterValue);
+
+      var user = await _userManager.GetUserAsync(User);
       if (await _userManager.IsInRoleAsync(user, "Admin")) {
-        return View(_subjectService.GetSubjects());
+        subjectVms = _subjectService.GetSubjects(filterExpression);
       } else if (await _userManager.IsInRoleAsync(user, "Teacher")) {
         if (user is Teacher teacher) {
-          return View(_subjectService.GetSubjects(s => s.TeacherId == teacher.Id));
+          Expression<Func<Subject, bool>> filterTeacherExpression = s => s.TeacherId == teacher.Id;
+          var finalFilterExpression = filterTeacherExpression.AndAlso(filterExpression);
+          subjectVms = _subjectService.GetSubjects(finalFilterExpression);
         } else {
           return BadRequest("Teacher role is assigned to user, but user is not of Teacher type");
         }
+      } else {
+        return View("Error");
       }
 
-      return View("Error");
+      if (IsAjaxRequest())
+        return PartialView("_SubjectsTableDataPartial", subjectVms);
+      return View(subjectVms);
+    }
+
+    private Expression<Func<Subject, bool>> GetFilterExpression(string filterValue) {
+      if (!string.IsNullOrWhiteSpace(filterValue)) {
+        return s => s.Name.Contains(filterValue);
+      } else {
+        return null;
+      }
     }
 
     public async Task<IActionResult> Details(int id) {

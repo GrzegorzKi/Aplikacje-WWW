@@ -14,5 +14,10 @@ namespace SchoolRegister.Web.Controllers {
       Mapper = mapper;
       Localizer = localizer;
     }
+
+    protected bool IsAjaxRequest() {
+      return HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest";
+    }
+
   }
 }
